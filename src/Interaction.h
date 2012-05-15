@@ -11,8 +11,8 @@
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  YOUR NAME (), 
- *        Company:  
+ *         Author:  Zero
+ *        Company:  NullSpace
  *
  * =====================================================================================
  */
