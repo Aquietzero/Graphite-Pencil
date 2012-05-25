@@ -30,6 +30,7 @@ using namespace std;
 #define WINDOW_HEIGHT 600
 
 // ====================================================================================
+
 // 定义出两个数中的最大值与最小值
 #define MAX2(a, b) (a > b ? a : b)
 #define MIN2(a, b) (a < b ? a : b)
@@ -39,6 +40,7 @@ using namespace std;
 // 定义出四个数中的最大值与最小值
 #define MAX4(a, b, c, d) (a > b ? MAX3(a, c, d) : MAX3(b, c, d))
 #define MIN4(a, b, c, d) (a < b ? MIN3(a, c, d) : MIN3(b, c, d))
+
 // ====================================================================================
 
 #endif
