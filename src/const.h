@@ -10,7 +10,7 @@
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  Zero
+ *         Author:  Zero, yveschen
  *        Company:  NullSpace
  *
  * =====================================================================================
@@ -21,10 +21,19 @@
 
 #include <GL/glut.h>
 #include <vector>
-
+#include <cmath>
+#include <iostream>
+#include <algorithm>
 using namespace std;
 
 #define WINDOW_WIDTH  800
 #define WINDOW_HEIGHT 600
+
+// ====================================================================================
+// 定义出三个数中的最大值
+#define MAXNUM(a, b, c) (a > b ? (a > c ? a : c) : (b > c) ? b : c)
+// 定义出三个数中的最小值
+#define MINNUM(a, b, c) (a < b ? (a < c ? a : c) : (b < c) ? b : c)
+// ====================================================================================
 
 #endif

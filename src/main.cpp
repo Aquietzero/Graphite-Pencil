@@ -16,7 +16,7 @@
  * =====================================================================================
  */
 
-#include "const.h"
+#include "Pencil.h"
 
 void SetupRC() {
     
@@ -75,19 +75,19 @@ void OnMouseDrag(int x, int y) {
 
 int main(int argc, char **argv) {
     
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
+//    glutInit(&argc, argv);
+//    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 
-    glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-    glutInitWindowPosition(200, 200);
-    glutCreateWindow("Graphite Pencil");
+ //   glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+  //  glutInitWindowPosition(200, 200);
+ //   glutCreateWindow("Graphite Pencil");
 
-    SetupRC();
-    glutReshapeFunc(ChangeSize);
-    glutDisplayFunc(RenderScene);
-    glutMotionFunc(OnMouseDrag);
-
-    glutMainLoop();
+ //   SetupRC();
+ //   glutReshapeFunc(ChangeSize);
+//    glutDisplayFunc(RenderScene);
+ //   glutMotionFunc(OnMouseDrag);
+    Pencil pen;  
+ //   glutMainLoop();
     return 0;
 
 }

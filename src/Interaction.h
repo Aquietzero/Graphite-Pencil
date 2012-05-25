@@ -11,7 +11,7 @@
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  Zero
+ *         Author:  Zero, yveschen
  *        Company:  NullSpace
  *
  * =====================================================================================
