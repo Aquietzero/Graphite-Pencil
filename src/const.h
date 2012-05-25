@@ -30,10 +30,15 @@ using namespace std;
 #define WINDOW_HEIGHT 600
 
 // ====================================================================================
-// 定义出三个数中的最大值
-#define MAXNUM(a, b, c) (a > b ? (a > c ? a : c) : (b > c) ? b : c)
-// 定义出三个数中的最小值
-#define MINNUM(a, b, c) (a < b ? (a < c ? a : c) : (b < c) ? b : c)
+// 定义出两个数中的最大值与最小值
+#define MAX2(a, b) (a > b ? a : b)
+#define MIN2(a, b) (a < b ? a : b)
+// 定义出三个数中的最大值与最小值
+#define MAX3(a, b, c) (a > b ? MAX2(a, c) : MAX2(b, c))
+#define MIN3(a, b, c) (a < b ? MIN2(a, c) : MIN2(b, c))
+// 定义出四个数中的最大值与最小值
+#define MAX4(a, b, c, d) (a > b ? MAX3(a, c, d) : MAX3(b, c, d))
+#define MIN4(a, b, c, d) (a < b ? MIN3(a, c, d) : MIN3(b, c, d))
 // ====================================================================================
 
 #endif

@@ -40,10 +40,10 @@ void Pencil::rasterize(Element v1, Element v2, Element v3) {
          << v2.x << "  " << v2.y << "  "
          << v3.x << "  " << v3.y << endl;
     // 找出最小矩形
-    x_min = MINNUM(v1.x, v2.x, v3.x);
-    x_max = MAXNUM(v1.x, v2.x, v3.x);
-    y_min = MINNUM(v1.y, v2.y, v3.y);
-    y_max = MAXNUM(v1.y, v2.y, v3.y);
+    x_min = MIN3(v1.x, v2.x, v3.x);
+    x_max = MAX3(v1.x, v2.x, v3.x);
+    y_min = MIN3(v1.y, v2.y, v3.y);
+    y_max = MAX3(v1.y, v2.y, v3.y);
 
     cout << x_min << "  " << x_max << "  "
         << y_min << "  " << y_max << endl;

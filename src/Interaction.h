@@ -23,12 +23,12 @@
 class Interaction {
 
 private:
-    float d_l;             // 铅笔距离纸平面的高度
-    int e_k;               // 纸张损耗的总重量
-    Paper paper;
+    float  d_l;             // 铅笔距离纸平面的高度
+    float  e_k;             // 纸张损耗的总重量
+    float  ba();            // 返回值域[0, 1]
+    Paper  paper;
     Pencil pencil;
-    ba();                  // 返回值域[0, 1]
-    
+   
 public:
     Interaction();
     calD_l();              // 计算铅笔距纸平面高度
