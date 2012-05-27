@@ -19,14 +19,24 @@
 #ifndef ELEMENT_H_
 #define ELEMENT_H_
 //#pragma once
-class Element {
 
-public:
-    Element(float X, float Y, float C_I, float P_I);
+struct Elem {
+
+    Elem(float vx, float vy, float vc=0, float vp=0);
+    Elem(const Elem& e);
+    Elem();
+    Elem& operator =  (const Elem& e);
+    bool  operator == (const Elem& e) const ;
+    bool  operator != (const Elem& e) const ;
+    bool  operator >= (const Elem& e) const ;
+    bool  operator <= (const Elem& e) const ;
+    bool  operator >  (const Elem& e) const ;
+    bool  operator <  (const Elem& e) const ;
+
     float x;
-    float y;
-    float c_i; // 压力系数 (0, 1)
-    float p_i; // 压力 (0, 1)
+    float y; // 定点坐标 (x, y)
+    float c; // 压力系数 [0, 1]
+    float p; // 压力
 
 };
 

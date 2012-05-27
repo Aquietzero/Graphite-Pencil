@@ -16,9 +16,7 @@
  * =====================================================================================
  */
 
-#include "Interaction.h"
-
-Interaction::Interaction() {
-
-
-}
+#include "const.h"
+/* 
+Interaction::Interaction() {}
+*/

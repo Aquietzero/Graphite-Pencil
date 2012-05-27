@@ -1,5 +1,5 @@
 
-#include "Grain.h"
+#include "const.h"
 
 Grain::Grain() {
 
@@ -56,7 +56,7 @@ void Grain::update(float f_v) {
     d_k = h / (h + h_ir + h_ib + h_irb);
     v_g = (hp + hp_ir + hp_ib + hp_irb) / 4;
     t_v = f_v * v_g;
-    l_k = d_k * t_v
+    l_k = d_k * t_v    // = this->calL_k(h)
         + major_left->calL_k(h)
         + major_top->calL_k(h)
         + major_leftTop->calL_k(h);

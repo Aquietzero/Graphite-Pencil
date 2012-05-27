@@ -1,9 +1,6 @@
 #ifndef PAPER_MODEL
 #define PAPER_MODEL
 
-#include "const.h"
-#include "Grain.h"
-
 class Paper {
 
 private:
@@ -18,6 +15,7 @@ private:
     
     void init();                  // 将各突起高低构造为图结构
     Grain& grain(int x, int y);                               // 获取突起
+
 public:
     Paper(int w, int h, float fv, float pw, float pm);        // 根据输入参数初始化纸张及各个高度
     void update(float newH, int x, int y);                    // 更具交互结果更新相应突起

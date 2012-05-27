@@ -10,192 +10,164 @@
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  yveschen
- *        Company:  
+ *         Author:  xxspc 
+ *        Company:  XXSpace && NullSpace 
  *
  * =====================================================================================
  */
 
-#include "Pencil.h"
+#include "const.h"
 
-// 对多边形进行三角化
-void Pencil::triangulate() {
+Pencil::Pencil(float p, float d, float gp, float cp, float wp,
+        Elem* first, Elem* last):
+        pressure(p), degree(d), g_p(gp), c_p(cp), w_p(wp) {
 
-    vector<Element>::iterator iter = vertices.begin() + 1;
-    vector<Element>::iterator nextiter = iter + 1;
-    vector<Element>::iterator nniter = nextiter + 1;
-    for (; nniter != vertices.end(); ++nextiter, ++nniter) 
-        rasterize(*iter, *nextiter, *nniter);
+    vertices = set<Elem>(first, last);
+    points   = set<Elem>();
 
 }
 
-// 对三角形进行光栅化
-void Pencil::rasterize(Element v1, Element v2, Element v3) {
+void Pencil::setPoints() {
 
-    float x_min, x_max, y_min, y_max;
-    float e_0, e_1, e_2;
-    float a_0, a_1, a_2, b_0, b_1, b_2, c_0, c_1, c_2;
+    points.clear();
+    set<Elem>::iterator it0 = vertices.begin();
+    set<Elem>::iterator it1 = vertices.begin();
+    set<Elem>::iterator it2 = ++it1;
+    for (it1 = ++it1; it1 != vertices.end(); ++it1, ++it2)
+        rasterize(*it0, *it1, *it2);
 
-    cout << v1.x << "  " << v1.y << "  "
-         << v2.x << "  " << v2.y << "  "
-         << v3.x << "  " << v3.y << endl;
-    // 找出最小矩形
-    x_min = MIN3(v1.x, v2.x, v3.x);
-    x_max = MAX3(v1.x, v2.x, v3.x);
-    y_min = MIN3(v1.y, v2.y, v3.y);
-    y_max = MAX3(v1.y, v2.y, v3.y);
+}
 
-    cout << x_min << "  " << x_max << "  "
-        << y_min << "  " << y_max << endl;
-    a_0 = v2.y - v1.y;
-    a_1 = v1.x - v2.x;
-    a_2 = v2.x * v1.y - v1.x * v2.y;
+/*          /|1
+ *         / |
+ *        /  |
+ *       / __|
+ *     2/__|_|3   vs   1_____2_____3
+ */
+void Pencil::cInterpolation(const Elem& e1, Elem& e2, const Elem& e3) {
 
-    b_0 = v3.y - v2.y;
-    b_1 = v2.x - v3.x;
-    b_2 = v3.x * v2.y - v2.x * v3.y;
-    
-    c_0 = v1.y - v3.y;
-    c_1 = v3.x - v1.x;
-    c_2 = v1.x * v3.y - v3.x * v1.y;
-    static int i = 0;
-    for (float y = y_min; y <= y_max; ++y)
-        for (float x = x_min; x <= x_max; ++x) {
-            e_0 = a_0 * x + a_1 * y + a_2;          
-            e_1 = b_0 * x + b_1 * y + b_2;
-            e_2 = c_0 * x + c_1 * y + c_2;
-            cout << "--" << e_0 << " " << e_1 <<" " << e_2 << endl; 
-            if (e_0 >= 0 && e_1 >= 0 && e_2 >= 0) {
-         
-                Element temv(x, y, 0, 0);
-                points.push_back(temv);
-                ++i;
-         
+    float d13 = sqrt((e1.x - e3.x) * (e1.x - e3.x) + (e1.y - e3.y) * (e1.y - e3.y));
+    float d12 = sqrt((e1.x - e2.x) * (e1.x - e2.x) + (e1.y - e2.y) * (e1.y - e2.y));
+    e2.c = d12 / d13 * (e3.c - e1.c) + e1.c;
+    e2.p = e2.c * pressure;
+
+}
+
+
+/*         1/\
+ *         /  \
+ *        / 0. \
+ *       /      \
+ *     2.————.———.3
+ *           4  
+ */
+void Pencil::rasterize(const Elem& e1, const Elem& e2, const Elem& e3) {
+    float x_min = MIN3(e1.x, e2.x, e3.x);
+    float x_max = MAX3(e1.x, e2.x, e3.x);
+    float y_min = MIN3(e1.y, e2.y, e3.y);
+    float y_max = MAX3(e1.y, e2.y, e3.y);
+
+    float e_1, e_2, e_3, k1, k2, x4, y4, d23, d24, d14, d10, c4, c0, p0;
+    k2 = (e2.y - e3.y)
+       / (fabs(e2.x - e3.x) <= DIFF ? (e2.x > e3.x ? DIFF : -DIFF) : (e2.x - e3.x));
+    d23 = sqrt((e2.x - e3.x)*(e2.x - e3.x) + (e2.y - e3.y)*(e2.y - e3.y));
+
+    for (float x0 = x_min; x0 <= x_max; x0 += 1) {
+        for (float y0 = y_min; y0 <= y_max; y0 += 1) {
+
+            e_1 = (e2.x - e1.x) * (y0 - e1.y) - (x0 - e1.x) * (e2.y - e1.y);
+            e_2 = (e3.x - e2.x) * (y0 - e2.y) - (x0 - e2.x) * (e3.y - e2.y);
+            e_3 = (e1.x - e3.x) * (y0 - e3.y) - (x0 - e3.x) * (e1.y - e3.y);
+
+            if ((e_1 >= 0 && e_2 >= 0 && e_3 >= 0) ||
+                (e_1 <= 0 && e_2 <= 0 && e_3 <= 0)) {
+
+                k1 = (y0 - e1.y)
+                   / (fabs(x0 - e1.x) <= DIFF ? (x0 > e1.x ? DIFF : -DIFF) : (x0 - e1.x));
+
+                x4 = (k1 * e1.x - e1.y - k2 * e2.x + e2.y)
+                   / (fabs(k1 - k2) <= DIFF ? (k1 > k2 ? DIFF : -DIFF) : (k1 - k2 ));
+                y4 = k1 * (x4 - e1.x) + e1.y;
+
+                d24 = sqrt((e2.x - x4)*(e2.x - x4) + (e2.y - y4)*(e2.y - y4));
+                d14 = sqrt((e1.x - x4)*(e1.x - x4) + (e1.y - y4)*(e1.y - y4));
+                d10 = sqrt((e1.x - x0)*(e1.x - x0) + (e1.y - y0)*(e1.y - y0));
+
+                c4  = (e3.c - e2.c) * d24 / d23 + e2.c;
+                c0  = (c4   - e1.c) * d10 / d14 + e1.c;
+                p0  = c0 * pressure;
+
+                points.insert(Elem(x0 , y0, c0, p0));
             }
-        }
-    cout << i << endl;
-}
-
-
-int cmp(const Element v1, const Element v2) {
-
-    if (v1.x < v2.x)
-        return 1;
-    else if (v1.x == v2.x)
-        return (v1.y <= v2.y ? 1: 0);
-    else 
-        return 0;
-
-}
-
-bool isCmp(Element v1, Element v2) {
-
-    return ((v1.x == v2.x) && (v1.y == v2.y));
-
-}
-
-
-void Pencil::calAllpoints() {
-
-    triangulate();
-
-    // 去除重复点 
-    vector<Element>::iterator iter;
-    sort(points.begin(), points.end(), cmp);
-    iter = unique(points.begin(), points.end(), isCmp);
-    if (iter != points.end())
-        points.erase(iter, points.end());
-
-    for (int i = 0; i < points.size(); ++i)
-        cout << points[i].x << "  " << points[i].y << "  " 
-             << points[i].c_i << "  " << points[i].p_i << endl;
-}
-
-
-void Pencil::calCoefficient() {
-
-    float* percentage = new float[num_vertices];
-    float sum;
-    float distance;
-    
-    for (int i = 0; i < num_points; ++i) {
-        
-        sum = 0;
-        for (int j = 0; j < num_vertices; ++j) {
-            distance = pow(points[i].x - vertices[j].x, 2) +
-                          (points[i].y - vertices[j].y, 2);
-            if (distance == 0) {
-
-                points[i].c_i = vertices[j].c_i;
-                break;
-            }
-                
-            *(percentage + j) = 1 / sqrt(distance);
-            sum += *(percentage + j);
-        }
-       
-        for (int j = 0; j < num_vertices; ++j) {
-            
-            if (distance == 0)
-                break;
-      
-            points[i].c_i += vertices[j].c_i * percentage[j] / sum;
         }
     }
 }
 
+float Pencil::getAvgPressure() {
 
-void Pencil::calPressures() {
-    
-    for (int i = 0; i < num_points; ++i) {
+    float p_sum = 0;
+    set<Elem>::iterator it = points.begin();
+    for (; it != points.end(); ++it)
+        p_sum += it->p;
 
-        if (points[i].x == vertices[0].x && points[i].y == vertices[0].y)
-            continue;
-        else  // 中心点压力乘以压力系数
-            points[i].p_i = points[i].c_i * vertices[0].p_i;
-    }
-    
+    return p_sum / points.size();
+
+}
+
+float Pencil::BVAdjuster(float bv)  {
+
+    return bv;
+
+}
+
+void Pencil::update(float bv) {
+
+    float c_bv = BVAdjuster(bv);
+
+    set<Elem> newVertices;
+    set<Elem>::iterator it = vertices.begin();
+    for (; it != vertices.end(); ++it)
+        newVertices.insert(Elem(it->x * (1 + c_bv),
+                                it->y * (1 + c_bv),
+                                it->c * (1 - c_bv)));
+
+    vertices = newVertices;
+    setPoints();
+    pressure *= (1 - bv / 5);
+
+}
+
+/* 3__4__0
+ * |  | /|
+ *2|__|/_|5
+ * | /|it|
+ * |/_|__|
+ * 1  7  6
+ */
+
+void Pencil::update(set<Elem>::iterator it, float bv) {
+ 
+    float c_bv = BVAdjuster(bv);
+    Elem e[8];
+    e[0] = Elem(it->x * (1 - c_bv), it->y * (1 - c_bv));
+    e[1] = Elem(it->x * (1 + c_bv), it->y * (1 + c_bv));
+    cInterpolation(e[0], e[1], *it);
+    e[2] = Elem(it->x * (1 + c_bv), it->y);
+    e[3] = Elem(it->x * (1 + c_bv), it->y * (1 - c_bv), it->c, it->p);
+    cInterpolation(e[1], e[2], e[3]);
+    e[4] = Elem(it->x, it->y * (1 + c_bv));
+    cInterpolation(e[0], e[4], e[3]);
+    e[5] = Elem(it->x * (1 - c_bv), it->y, e[4].c, e[4].p);
+    e[6] = Elem(it->x * (1 - c_bv), it->y * (1 + c_bv), e[3].c, e[3].p);
+    e[7] = Elem(it->x, it->y * (1 + c_bv), e[2].c, e[2].p);
+
+    for (int i = 1; i < 7; ++i)
+        points.insert(e[i]);
+
 }
 
 
-void Pencil::calAvgPressures() {
-
-    float sum_pi = 0;
-
-    for (int i = 0; i < num_points; ++i)
-        sum_pi += points[i].p_i;
-
-    avg_pressure = sum_pi / num_points;
-}
 
 
-Pencil::Pencil() {
 
-/* =======================test============================ */    
-    GRAPHITE_PERCENT = 0.41;
-    CLAY_PERCENT = 0.53;
-    WAX_PERCENT = 0.05;
-    //中心点有压力 
-    Element v0(5, 5, 0.1, 1);
-    Element v1(0, 5, 0.1, 0);
-    Element v2(5, 10, 0.1, 0);
-    Element v3(10, 5, 0.1, 0);
-    Element v4(5, 0, 0.1, 0);
-    vertices.push_back(v0);
-    vertices.push_back(v1);
-    vertices.push_back(v2);
-    vertices.push_back(v3);
-    vertices.push_back(v4);
-/* ======================================================= */
 
-    num_vertices = vertices.size();
-
-    calAllpoints();
-    num_points = points.size();
-
-    calCoefficient();
-
-    calPressures();
-    calAvgPressures();
-
-}

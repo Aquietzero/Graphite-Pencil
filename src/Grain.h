@@ -1,8 +1,6 @@
 #ifndef GRAIN_MODEL
 #define GRAIN_MODEL
 
-#include "const.h"
-
 class Grain {
 
 private:

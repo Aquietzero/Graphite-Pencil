@@ -16,7 +16,7 @@
  * =====================================================================================
  */
 
-#include "Pencil.h"
+#include "const.h"
 
 void SetupRC() {
     
@@ -86,7 +86,8 @@ int main(int argc, char **argv) {
  //   glutReshapeFunc(ChangeSize);
 //    glutDisplayFunc(RenderScene);
  //   glutMotionFunc(OnMouseDrag);
-    Pencil pen;  
+      Elem vs[5];
+      Pencil pen(0, 0, 0, 0, 0, vs, vs+5);  
  //   glutMainLoop();
     return 0;
 

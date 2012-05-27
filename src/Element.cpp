@@ -16,13 +16,66 @@
  * =====================================================================================
  */
 
-#include "Element.h"
+#include "const.h"
 
-Element::Element(float X, float Y, float C_I, float P_I) {
+Elem::Elem(float vx, float vy, float vc, float vp) {
     
-    x = X;
-    y = Y;
-    c_i = C_I;
-    p_i = P_I;
+    x = vx;
+    y = vy;
+    c = vc;
+    p = vp;
     
 }
+
+Elem::Elem(const Elem& e) {
+
+    Elem(e.x, e.y, e.c, e.p);
+}
+
+Elem::Elem() {
+
+    Elem(0, 0, 0, 0);
+
+}
+
+Elem& Elem::operator = (const Elem& e) {
+
+    Elem(e.x, e.y, e.c, e.p);
+
+}
+
+bool Elem::operator == (const Elem& e) const {
+
+    return fabs((x - e.x) * (x - e.x) + (y - e.y) * (y - e.y)) <= DIFF;
+
+}
+
+bool Elem::operator != (const Elem& e) const {
+
+    return fabs((x - e.x) * (x - e.x) + (y - e.y) * (y - e.y)) > DIFF;
+
+}
+
+bool Elem::operator > (const Elem& e) const {
+
+    return (x*x + y*y) - (e.x*e.x + e.y*e.y) > DIFF;
+}
+
+bool Elem::operator <= (const Elem& e) const {
+
+    return (x*x + y*y) - (e.x*e.x + e.y*e.y) <= DIFF;
+
+}
+
+bool Elem::operator < (const Elem& e) const {
+
+    return (x*x + y*y) - (e.x*e.x + e.y*e.y) < -DIFF;
+
+}
+
+bool Elem::operator >= (const Elem& e) const  {
+
+    return (x*x + y*y) - (e.x*e.x + e.y*e.y) >= -DIFF;
+
+}
+
