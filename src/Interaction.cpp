@@ -17,20 +17,6 @@
  */
 
 #include "const.h"
-
-Interaction::Interaction() {
-
-    d_l = 0;
-    e_k = 0;
-    paper(p);
-    pencil(pen);
-
-}
-
-
-void Interaction::calD_l() {
-    
-    for (int i = 0; i < p.:)
-    d_l = p.getH_max()
-    
-}
+/* 
+Interaction::Interaction() {}
+*/
