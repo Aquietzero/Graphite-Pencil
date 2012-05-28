@@ -21,7 +21,7 @@
 #define GRAPHITE_PENCIL_INTERACTION
 
 class Interaction {
-/*
+
 private:
     float  d_l;             // 铅笔距离纸平面的高度
     float  e_k;             // 纸张损耗的总重量
@@ -30,14 +30,14 @@ private:
     Pencil pencil;
    
 public:
-    Interaction();
+    Interaction(Paper p, Pencil pen);
     void calD_l();              // 计算铅笔距纸平面高度
     void calE_k();              // 计算纸张损耗的总重量
     void calGray(int x, int y); // 通过xy计算灰度值，调用铅笔的calAllPoints()函数得到所影响的点，传给Paper的calGrain()进行运算
     void updateAllGrains(pencil, d_l); // 通过传进铅笔的硬度和铅笔距离纸的高度更新突起的高度,调用Grain的updateH_k()函数
     void calPencilB_v(pencil);  // 调用calB_v()和adjustB_v()函数
      
-*/    
+    
 };
     
 class show {
