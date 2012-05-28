@@ -12,6 +12,7 @@ Grain::Grain() {
 
 }
 
+
 void Grain::init(Grain* ir, Grain* ib, Grain* irb,
                  Grain* ar, Grain* ab, Grain* arb) {
 
@@ -25,9 +26,10 @@ void Grain::init(Grain* ir, Grain* ib, Grain* irb,
 
 }
 
+
 void Grain::update(float newH, float f_v) {
 
-    if (fabs(h - newH) < 0.001)
+    if (fabs(h - newH) < DIFF)
         return;
 
     h = newH;
@@ -37,6 +39,7 @@ void Grain::update(float newH, float f_v) {
     major_leftTop->update(f_v);
 
 }
+
 
 void Grain::update(float f_v) {
 
