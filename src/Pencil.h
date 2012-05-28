@@ -28,6 +28,7 @@ private:
 public:
     Pencil(float p, float d, float gp, float cp, float wp, 
            Elem* first, Elem* last);
+    set<Elem> getAllPoints() { return points; }
     void update(set<Elem>::iterator it, float bv);
     void update(float bv);
     float getAvgPressure();// 计算所有点的平均压力

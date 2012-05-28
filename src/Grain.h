@@ -24,7 +24,6 @@ private:
     Grain* major_top;
     Grain* major_leftTop;
 
-    float getH()      { return h; }
     float getHp()     { return hp; }
     float getH_sum();
     float getHp_sum();
@@ -49,6 +48,7 @@ public:
               Grain* ar, Grain* ab, Grain* arb);  // 在使用Grain前必须初始化Grian左，下，左下三个方向的突起高度
     void update(float newH, float f_v);           // 更新突起主高度
 
+    float getH()      { return h; }
     float getH_max()  { return h_max; }
     float getH_min()  { return h_min; }
     float getHp_max() { return hp_max; }
