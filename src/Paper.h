@@ -1,3 +1,4 @@
+
 #ifndef PAPER_MODEL
 #define PAPER_MODEL
 

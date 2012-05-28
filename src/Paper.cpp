@@ -1,3 +1,4 @@
+
 #include "const.h"
 
 Paper::Paper(int w, int h, float fv, float pw, float pm): f_v(fv), W(pw), M(pm) {
@@ -44,15 +45,4 @@ void Paper::update(float newH, int x, int y) {
     grain(x, y).update(newH, f_v);
 
 }
-
-
-
-
-
-
-
-
-
-
-
 

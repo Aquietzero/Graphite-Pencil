@@ -1,3 +1,4 @@
+
 #ifndef GRAIN_MODEL
 #define GRAIN_MODEL
 
@@ -12,7 +13,6 @@ private:
     float hp_max;
 
     float d_k;    // D_k, 各高度比率
-    float v_g;    // 突起体积
     float t_v;    // 突起最大笔屑容量
     float l_k;    // 各高度的最大笔屑容量
 
@@ -24,12 +24,24 @@ private:
     Grain* major_top;
     Grain* major_leftTop;
 
-   float getH()      { return h; }
-   float getHp()     { return hp; }
-/* float getH_sum();
-   float getHp_sum();*/
-   float calL_k(float gh); // 计算某高度分属各个突起所能容纳的最大笔屑数量
-   void update(float f_v); // 更新突起所有其他有关属性以及相关突起高度的属性
+    float getH()      { return h; }
+    float getHp()     { return hp; }
+    float getH_sum();
+    float getHp_sum();
+
+    float calL_k(float gh); // 计算某高度分属各个突起所能容纳的最大笔屑数量
+    void updateByH(float f_v); // 更新突起所有其他有关属性以及相关突起高度的属性
+
+    void updateH(float newH);
+    void updateH_max();
+    void updateH_min();
+    void updateHp();
+    void updateHp_max();
+    void updateHp_min();
+
+    void updateD_k();
+    void updateT_v(float f_v);
+    void updateL_k();
 
 public:
     Grain();

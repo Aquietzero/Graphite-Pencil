@@ -1,20 +1,3 @@
-/*
- * =====================================================================================
- *
- *       Filename:  Pencil.h
- *
- *    Description:  Pencil.h defines the basic model of the graphite pencil.
- *
- *        Version:  1.0
- *        Created:  05/15/2012 10:35:30 AM
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  xxspc
- *        Company:  XXSpace && NullSpace
- *
- * =====================================================================================
- */
 
 #ifndef GRAPHITE_PENCIL_PENCIL_MODEL
 #define GRAPHITE_PENCIL_PENCIL_MODEL
@@ -35,9 +18,12 @@ private:
     float BVAdjuster(float bv);//根据突起对应铅笔位置上的损耗调整该损耗对铅笔形状进行调整
 
     void setPoints();         // 光栅话从而得到铅笔多边形所包含的所有点
-
-    void rasterize(const Elem& e1, const Elem& e2, const Elem& e3);
-    void cInterpolation(const Elem& e1, Elem& e2, const Elem& e3);
+    void setPointsByRasterize(const Elem& e1, const Elem& e2, const Elem& e3);
+    void setElemByLinearInterpolation(const Elem& e1, Elem& e2, const Elem& e3);
+    void setElemByTriangleInterpolation(const Elem& e1, const Elem& e2, const Elem& e3, Elem& e0);
+    void setIntersectionElem(const Elem& e0, const Elem& e1, const Elem& e2, const Elem& e3, Elem& e4);
+    void setBorder(float& left, float& right, float& up, float& down, const Elem& e1, const Elem& e2, const Elem& e3);
+    bool isInner(const Elem& e1, const Elem& e2, const Elem& e3, const Elem& e0);
 
 public:
     Pencil(float p, float d, float gp, float cp, float wp, 

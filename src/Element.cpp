@@ -1,40 +1,30 @@
-/*
- * =====================================================================================
- *
- *       Filename:  Element.cpp
- *
- *    Description:  implement Element.h
- *
- *        Version:  1.0
- *        Created:  2012年05月21日 18时39分25秒
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  yveschen 
- *        Company:  
- *
- * =====================================================================================
- */
 
 #include "const.h"
 
-Elem::Elem(float vx, float vy, float vc, float vp) {
+void Elem::set(float vx, float vy, float vc, float vp) {
     
     x = vx;
     y = vy;
     c = vc;
     p = vp;
-    
+ 
+}
+
+Elem::Elem(float vx, float vy, float vc, float vp) {
+ 
+    set(vx, vy, vc, vp);
+   
 }
 
 Elem::Elem(const Elem& e) {
 
-    Elem(e.x, e.y, e.c, e.p);
+    set(e.x, e.y, e.c, e.p);
+
 }
 
 Elem::Elem() {
 
-    Elem(0, 0, 0, 0);
+    set(0, 0, 0, 0);
 
 }
 
