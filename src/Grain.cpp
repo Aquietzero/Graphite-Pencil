@@ -12,6 +12,7 @@ Grain::Grain() {
 
 }
 
+
 void Grain::init(Grain* ir, Grain* ib, Grain* irb,
                  Grain* ar, Grain* ab, Grain* arb) {
 
@@ -25,12 +26,21 @@ void Grain::init(Grain* ir, Grain* ib, Grain* irb,
 
 }
 
+<<<<<<< HEAD
 void Grain::updateH(float newH) {
+=======
+
+void Grain::update(float newH, float f_v) {
+
+    if (fabs(h - newH) < DIFF)
+        return;
+>>>>>>> 9abcdac29314434d58d162c267808fc7da6b8258
 
     h = newH;
 
 }
 
+<<<<<<< HEAD
 void Grain::updateH_max() {
 
     h_max = MAX4(h,
@@ -50,6 +60,10 @@ void Grain::updateH_min() {
 }
 
 void Grain::updateHp() {
+=======
+
+void Grain::update(float f_v) {
+>>>>>>> 9abcdac29314434d58d162c267808fc7da6b8258
 
     hp = h_max - h;
 
