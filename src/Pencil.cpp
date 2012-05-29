@@ -168,3 +168,17 @@ void Pencil::update(set<Elem>::iterator it, float bv) {
 
 }
 
+const float Pencil::getGP() {
+
+    return g_p;
+}
+
+const float Pencil::getCP() {
+
+    return c_p;
+}
+
+const float Pencil::getWP() {
+
+    return w_p;
+}

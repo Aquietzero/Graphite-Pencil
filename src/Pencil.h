@@ -24,11 +24,15 @@ private:
     void setIntersectionElem(const Elem& e0, const Elem& e1, const Elem& e2, const Elem& e3, Elem& e4);
     void setBorder(float& left, float& right, float& up, float& down, const Elem& e1, const Elem& e2, const Elem& e3);
     bool isInner(const Elem& e1, const Elem& e2, const Elem& e3, const Elem& e0);
+    const float getGP();
+    const float getCP();
+    const float getWP();
 
 public:
     Pencil(float p, float d, float gp, float cp, float wp, 
            Elem* first, Elem* last);
-    set<Elem> getAllPoints() { return points; }
+    Pencil(Pencil pen);
+    set<Elem>& getAllPoints() { return points; }
     void update(set<Elem>::iterator it, float bv);
     void update(float bv);
     float getAvgPressure();// 计算所有点的平均压力
