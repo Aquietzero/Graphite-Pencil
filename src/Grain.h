@@ -57,6 +57,14 @@ public:
     float getD_k()    { return d_k; }    
     float getT_v()    { return t_v; }    
     float getL_k()    { return l_k; }    
+
+    Grain& getLeft()        { return *major_left; }
+    Grain& getTop()         { return *major_top; }
+    Grain& getLeftTop()     { return *major_leftTop; }
+    Grain& getRight()       { return *minor_right; }
+    Grain& getBottom()      { return *minor_bottom; }
+    Grain& getRightBottom() { return *minor_rightBottom; }
+
 };
 
 #endif

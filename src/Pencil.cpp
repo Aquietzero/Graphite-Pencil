@@ -1,12 +1,23 @@
 
 #include "const.h"
+Pencil::Pencil() {
 
-Pencil::Pencil(float p, float d, float gp, float cp, float wp,
-        Elem* first, Elem* last):
-        pressure(p), degree(d), g_p(gp), c_p(cp), w_p(wp) {
+    pressure = degree = g_p = c_p = w_p = 0;
+    vertices = set<Elem>();
+    points   = set<Elem>();
+}
+
+void Pencil::init(float p, float d, float gp, float cp, float wp,
+              Elem* first, Elem* last) {
+
+    pressure = p;
+    degree   = d;
+    g_p      = gp;
+    c_p      = cp;
+    w_p      = wp;
 
     vertices = set<Elem>(first, last);
-    points   = set<Elem>();
+    setPoints();
 
 }
 
@@ -168,17 +179,3 @@ void Pencil::update(set<Elem>::iterator it, float bv) {
 
 }
 
-const float Pencil::getGP() {
-
-    return g_p;
-}
-
-const float Pencil::getCP() {
-
-    return c_p;
-}
-
-const float Pencil::getWP() {
-
-    return w_p;
-}

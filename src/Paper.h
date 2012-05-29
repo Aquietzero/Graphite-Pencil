@@ -21,15 +21,21 @@ public:
     Paper(int w, int h, float fv, float pw, float pm);        // 根据输入参数初始化纸张及各个高度
     void update(float newH, int x, int y);                    // 更具交互结果更新相应突起
 
-    float getH(int x, int y)  { return grain(x, y).getH(); }
-    float getH_max(int x, int y)  { return grain(x, y).getH_max(); }
-    float getH_min(int x, int y)  { return grain(x, y).getH_min(); }
-    float getHp_max(int x, int y) { return grain(x, y).getHp_max(); }
-    float getHp_min(int x, int y) { return grain(x, y).getHp_min(); }
+    float  getH(int x, int y)  { return grain(x, y).getH(); }
+    float  getH_max(int x, int y)  { return grain(x, y).getH_max(); }
+    float  getH_min(int x, int y)  { return grain(x, y).getH_min(); }
+    float  getHp_max(int x, int y) { return grain(x, y).getHp_max(); }
+    float  getHp_min(int x, int y) { return grain(x, y).getHp_min(); }
 
-    float getD_k(int x, int y)    { return grain(x, y).getD_k(); }    
-    float getT_v(int x, int y)    { return grain(x, y).getT_v(); }    
-    float getL_k(int x, int y)    { return grain(x, y).getL_k(); } 
+    float  getD_k(int x, int y)    { return grain(x, y).getD_k(); }    
+    float  getT_v(int x, int y)    { return grain(x, y).getT_v(); }    
+    float  getL_k(int x, int y)    { return grain(x, y).getL_k(); } 
+    Grain& getLeft(int x, int y)        { return Grain(x, y).getLeft(); }
+    Grain& getTop(int x, int y)         { return Grain(x, y).getTop(); }
+    Grain& getLeftTop(int x, int y)     { return Grain(x, y).getLeftTop(); }
+    Grain& getRight(int x, int y)       { return Grain(x, y).getRight(); }
+    Grain& getBottom(int x, int y)      { return Grain(x, y).getBottom(); }
+    Grain& getRightBottom(int x, int y) { return Grain(x, y).getRightBottom(); }
 };
 
 #endif
