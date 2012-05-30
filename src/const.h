@@ -28,7 +28,7 @@ using namespace std;
 #define MAX4(a, b, c, d) (a > b ? MAX3(a, c, d) : MAX3(b, c, d))
 #define MIN4(a, b, c, d) (a < b ? MIN3(a, c, d) : MIN3(b, c, d))
 
-// 浮点书比较时当两个数字的差值不超过DIFF就认为相等
+// 浮点数比较时当两个数字的差值不超过DIFF就认为相等
 #define DIFF 0.000001
 
 #define GRAIN_HK_MAX 100

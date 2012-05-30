@@ -77,10 +77,8 @@ void Interaction::act(float mx, float my) {
     for (it = points.begin(); it != points.end(); ++it) {
         setXY(it->x, it->y, x, y);
         float d_l = calD_l();
-        float h_k = calH_k(d_l);
         float b_v = calB_v(d_l);
         paper.setB_v(x, y, b_v);
-        paper.updateH(x, y, h_k);
 
     }
 

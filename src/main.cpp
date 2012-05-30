@@ -15,8 +15,21 @@
  *
  * =====================================================================================
  */
-
 #include "const.h"
+#include "Pencil.h"
+#include "Paper.h"
+
+Elem vs[5];
+vs[0].set(0, 0, 0.5, 0.5);
+vs[1].set(-5, 5, 0.5, 0.5);
+vs[2].set(5, 5, 0.5, 0.5);
+vs[3].set(5, -5, 0.5, 0.5);
+vs[4].set(-5, -5, 0.5, 0.5);
+Pencil pen;
+pen.init(0.5, 0.5, 0.5, 0.5, 0.5, vs, vs+5);  
+Paper paper;
+paper.init(800, 600, 0.5, 0.5, 0.5);
+Interaction inter(paper, pen);
 
 void SetupRC() {
     
@@ -64,32 +77,27 @@ void OnMouseDrag(int x, int y) {
 
     glColor3ub(0, 0, 0);
 
-    glPointSize(5);
-    glBegin(GL_POINTS);
-        glVertex2i(x, WINDOW_HEIGHT - y);
-    glEnd();
-
+    inter.act(x, y);
+    paper.show();
     glutSwapBuffers();
 
 }
 
 int main(int argc, char **argv) {
     
-//    glutInit(&argc, argv);
-//    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 
- //   glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-  //  glutInitWindowPosition(200, 200);
- //   glutCreateWindow("Graphite Pencil");
+    glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+    glutInitWindowPosition(200, 200);
+    glutCreateWindow("Graphite Pencil");
 
- //   SetupRC();
- //   glutReshapeFunc(ChangeSize);
-//    glutDisplayFunc(RenderScene);
- //   glutMotionFunc(OnMouseDrag);
-      Elem vs[5];
-      Pencil pen;
-      pen.init(0, 0, 0, 0, 0, vs, vs+5);  
- //   glutMainLoop();
+    SetupRC();
+    glutReshapeFunc(ChangeSize);
+    glutDisplayFunc(RenderScene);
+    glutMotionFunc(OnMouseDrag);
+      
+    glutMainLoop();
     return 0;
 
 }
