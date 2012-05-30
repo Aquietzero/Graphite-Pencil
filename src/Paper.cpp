@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "const.h"
 
 Paper::Paper() {
@@ -58,9 +57,10 @@ void Paper::show() {
         for (int j = 0; j < height; ++j){
             float gray = 1- log(grains[i][j].getT());
             glColor3f(gray, gray, gray);
-            glBegin(GL_POINTS);
+            glBegin(GL_POINT);
                 glVertex2i(i, j);
             glEnd();
     }
+    
 }
 

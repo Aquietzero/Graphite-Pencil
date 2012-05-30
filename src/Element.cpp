@@ -34,38 +34,20 @@ Elem& Elem::operator = (const Elem& e) {
 
 }
 
-bool Elem::operator == (const Elem& e) const {
 
-    return fabs((x - e.x) * (x - e.x) + (y - e.y) * (y - e.y)) <= DIFF;
+bool Elem::operator  < (const Elem& e) const {
 
-}
-
-bool Elem::operator != (const Elem& e) const {
-
-    return fabs((x - e.x) * (x - e.x) + (y - e.y) * (y - e.y)) > DIFF;
-
-}
-
-bool Elem::operator > (const Elem& e) const {
-
-    return (x*x + y*y) - (e.x*e.x + e.y*e.y) > DIFF;
-}
-
-bool Elem::operator <= (const Elem& e) const {
-
-    return (x*x + y*y) - (e.x*e.x + e.y*e.y) <= DIFF;
-
-}
-
-bool Elem::operator < (const Elem& e) const {
-
-    return (x*x + y*y) - (e.x*e.x + e.y*e.y) < -DIFF;
-
-}
-
-bool Elem::operator >= (const Elem& e) const  {
-
-    return (x*x + y*y) - (e.x*e.x + e.y*e.y) >= -DIFF;
+    float d1 = sqrt(x*x + y*y);
+    float d2 = sqrt(e.x*e.x + e.y*e.y);
+    if (d1 - d2 <= -DIFF)
+        return true;
+    else if (fabs(d1 - d2) < DIFF) {
+        if (x - e.x <= -DIFF)
+            return true;
+        else if (fabs(x - e.x) < DIFF && y - e.y <= -DIFF)
+            return true;
+    }
+    return false;
 
 }
 

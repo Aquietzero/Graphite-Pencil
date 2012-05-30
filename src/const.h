@@ -3,10 +3,10 @@
 #define GRAPHITE_PENCIL_CONST
 
 #include <GL/glut.h>
+#include <vector>
 #include <set>
 #include <cmath>
 #include <iostream>
-#include <algorithm>
 using namespace std;
 
 #include "Element.h"

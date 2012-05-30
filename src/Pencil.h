@@ -5,7 +5,7 @@
 class Pencil {
     
 private:
-    set<Elem> vertices;       // 多边形顶点
+    vector<Elem> vertices;       // 多边形顶点
     set<Elem> points;         // 多边形所有点
 
     float pressure;     // 铅笔中心所受压力

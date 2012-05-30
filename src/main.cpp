@@ -19,17 +19,9 @@
 #include "Pencil.h"
 #include "Paper.h"
 
-Elem vs[5];
-vs[0].set(0, 0, 0.5, 0.5);
-vs[1].set(-5, 5, 0.5, 0.5);
-vs[2].set(5, 5, 0.5, 0.5);
-vs[3].set(5, -5, 0.5, 0.5);
-vs[4].set(-5, -5, 0.5, 0.5);
 Pencil pen;
-pen.init(0.5, 0.5, 0.5, 0.5, 0.5, vs, vs+5);  
 Paper paper;
-paper.init(800, 600, 0.5, 0.5, 0.5);
-Interaction inter(paper, pen);
+Interaction act(paper, pen);
 
 void SetupRC() {
     
@@ -77,14 +69,22 @@ void OnMouseDrag(int x, int y) {
 
     glColor3ub(0, 0, 0);
 
-    inter.act(x, y);
+    act.act(x, y);
     paper.show();
     glutSwapBuffers();
 
 }
 
 int main(int argc, char **argv) {
-    
+
+    Elem vs[4];
+    vs[0].set( 0, 5, 0.5, 0.5);
+    vs[1].set(-5, 0, 0.5, 0.5);
+    vs[2].set( 0,-5,0.5, 0.5);
+    vs[3].set( 5, 0, 0.5, 0.5);
+    paper.init(800, 600, 0.5, 0.5, 0.5);
+    pen.init(0.5, 0.5, 0.5, 0.5, 0.5, vs, vs+4);  
+
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 

@@ -10,11 +10,6 @@ struct Elem {
     Elem(const Elem& e);
     Elem();
     Elem& operator =  (const Elem& e);
-    bool  operator == (const Elem& e) const ;
-    bool  operator != (const Elem& e) const ;
-    bool  operator >= (const Elem& e) const ;
-    bool  operator <= (const Elem& e) const ;
-    bool  operator >  (const Elem& e) const ;
     bool  operator <  (const Elem& e) const ;
 
     float x;

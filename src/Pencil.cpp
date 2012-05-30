@@ -3,7 +3,7 @@
 Pencil::Pencil() {
 
     pressure = degree = g_p = c_p = w_p = 0;
-    vertices = set<Elem>();
+    vertices = vector<Elem>();
     points   = set<Elem>();
 }
 
@@ -16,7 +16,7 @@ void Pencil::init(float p, float d, float gp, float cp, float wp,
     c_p      = cp;
     w_p      = wp;
 
-    vertices = set<Elem>(first, last);
+    vertices = vector<Elem>(first, last);
     setPoints();
 
 }
@@ -24,10 +24,10 @@ void Pencil::init(float p, float d, float gp, float cp, float wp,
 void Pencil::setPoints() {
 
     points.clear();
-    set<Elem>::iterator it0 = vertices.begin();
-    set<Elem>::iterator it1 = vertices.begin();
-    set<Elem>::iterator it2 = ++it1;
-    for (it1 = ++it1; it1 != vertices.end(); ++it1, ++it2)
+    vector<Elem>::iterator it0 = vertices.begin();
+    vector<Elem>::iterator it1 = it0;
+    vector<Elem>::iterator it2 = ++it1;
+    for (it2 = ++it2; it2 != vertices.end(); ++it1, ++it2) 
         setPointsByRasterize(*it0, *it1, *it2);
 
 }
@@ -82,8 +82,8 @@ void Pencil::setBorder(float& left, float& right, float& up, float& down,
 
     left  = MIN3(e1.x, e2.x, e3.x);
     right = MAX3(e1.x, e2.x, e3.x);
-    up    = MIN3(e1.y, e2.y, e3.y);
-    down  = MAX3(e1.y, e2.y, e3.y);
+    up    = MAX3(e1.y, e2.y, e3.y);
+    down  = MIN3(e1.y, e2.y, e3.y);
 
 }
 
@@ -108,12 +108,9 @@ void Pencil::setPointsByRasterize(const Elem& e1, const Elem& e2, const Elem& e3
     for (float x0 = left; x0 <= right; x0 += 1) 
         for (float y0 = down; y0 <= up; y0 += 1) {
             Elem e0(x0, y0);
-            if (isInner(e1, e2, e3, e0)){
-                setElemByTriangleInterpolation(e1, e2, e3, e0);
+            if (isInner(e1, e2, e3, e0))
                 points.insert(e0);
-            }
         }
-
 }
 
 float Pencil::getAvgPressure() {
@@ -137,10 +134,10 @@ void Pencil::update(float bv) {
 
     float c_bv = BVAdjuster(bv);
 
-    set<Elem> newVertices;
-    set<Elem>::iterator it = vertices.begin();
+    vector<Elem> newVertices;
+    vector<Elem>::iterator it = vertices.begin();
     for (; it != vertices.end(); ++it)
-        newVertices.insert(Elem(it->x * (1 + c_bv),
+        newVertices.push_back(Elem(it->x * (1 + c_bv),
                                 it->y * (1 + c_bv),
                                 it->c * (1 - c_bv)));
 
