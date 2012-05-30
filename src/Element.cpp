@@ -1,31 +1,30 @@
 
 #include "const.h"
 
-void Elem::set(float vx, float vy, float vc, float vp, float vb) {
+void Elem::set(float vx, float vy, float vc, float vp) {
     
     x = vx;
     y = vy;
     c = vc;
     p = vp;
-    b = vb;
  
 }
 
-Elem::Elem(float vx, float vy, float vc, float vp, float vb) {
+Elem::Elem(float vx, float vy, float vc, float vp) {
  
-    set(vx, vy, vc, vp, vb);
+    set(vx, vy, vc, vp);
    
 }
 
 Elem::Elem(const Elem& e) {
 
-    set(e.x, e.y, e.c, e.p, e.b);
+    set(e.x, e.y, e.c, e.p);
 
 }
 
 Elem::Elem() {
 
-    set(0, 0, 0, 0, 0);
+    set(0, 0, 0, 0);
 
 }
 

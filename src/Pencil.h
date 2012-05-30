@@ -14,7 +14,6 @@ private:
     float c_p;
     float w_p;
    
-    float da() { return 0.5; }// 返回值域[0, 1],暂定返回0.5
     float BVAdjuster(float bv);//根据突起对应铅笔位置上的损耗调整该损耗对铅笔形状进行调整
 
     void setPoints();         // 光栅话从而得到铅笔多边形所包含的所有点
@@ -37,6 +36,8 @@ public:
 
     void update(set<Elem>::iterator it, float bv);
     void update(float bv);
+    float da() { return 0.5; }// 返回值域[0, 1],暂定返回0.5
+    float ba() { return 0.5; }// 返回值域[0, 1],暂定返回0.5
 
     set<Elem>& getAllPoints() { return points; }
 

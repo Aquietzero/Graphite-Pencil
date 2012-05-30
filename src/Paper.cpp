@@ -3,7 +3,7 @@
 
 Paper::Paper() {
 
-    width  = height = f_v = W = M = 0;
+    width  = height = f_v = M = 0;
     grains = NULL;
 
 }
@@ -18,11 +18,12 @@ void Paper::init(int w, int h, float fv, float pw, float pm) {
     for (int i = 0; i < w; ++i)
         grains[i] = new Grain[h];
 
+    initAllGrains();
+
 }
 
 void Paper::initAllGrains() {
-    // 初始化每个突起相关的三个副高度和三个主高度
-    // 纸张实际操作大小为［1，width-2］［1, height-2］,边界不处理
+
     for (int x = 1; x < width - 1; ++x)
         for (int y = 1; y < height - 1; ++y)
             grains[x][y].init(&grains[x+1][y], &grains[x][y+1], &grains[x+1][y+1],
@@ -31,7 +32,7 @@ void Paper::initAllGrains() {
     srand(time(NULL));
     for (int x = 1; x < width - 1; ++x)
         for (int y = 1; y < height - 1; ++y)
-            grains[x][y].update(rand() / float(RAND_MAX), f_v);
+            grains[x][y].updateH(rand() / float(RAND_MAX));
 
 }
 
@@ -51,9 +52,15 @@ Grain& Paper::grain(int x, int y) {
 
 }
 
-void Paper::update(float newH, int x, int y) {
+void Paper::show() {
 
-    grain(x, y).update(newH, f_v);
-
+    for(int i=0; i < width; ++i) 
+        for (int j = 0; j < height; ++j){
+            float gray = 1- log(grains[i][j].getT());
+            glColor3f(gray, gray, gray);
+            glBegin(GL_POINTS);
+                glVertex2i(i, j);
+            glEnd();
+    }
 }
 

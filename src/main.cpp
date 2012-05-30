@@ -87,7 +87,8 @@ int main(int argc, char **argv) {
 //    glutDisplayFunc(RenderScene);
  //   glutMotionFunc(OnMouseDrag);
       Elem vs[5];
-      Pencil pen(0, 0, 0, 0, 0, vs, vs+5);  
+      Pencil pen;
+      pen.init(0, 0, 0, 0, 0, vs, vs+5);  
  //   glutMainLoop();
     return 0;
 

@@ -4,9 +4,9 @@
 
 struct Elem {
 
-    void set(float vx, float vy, float vc, float vp, float vb);
+    void set(float vx, float vy, float vc, float vp);
 
-    Elem(float vx, float vy, float vc=0, float vp=0, float vb=0);
+    Elem(float vx, float vy, float vc=0, float vp=0);
     Elem(const Elem& e);
     Elem();
     Elem& operator =  (const Elem& e);
@@ -21,7 +21,6 @@ struct Elem {
     float y; // 定点坐标 (x, y)
     float c; // 压力系数 [0, 1]
     float p; // 压力
-    float b; // 损耗
 
 };
 

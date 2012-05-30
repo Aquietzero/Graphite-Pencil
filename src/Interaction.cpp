@@ -17,98 +17,94 @@
  */
 
 #include "const.h"
- 
-Interaction::Interaction() {
+  
+Interaction::Interaction(Paper& pp, Pencil& pn): paper(pp), pencil(pn) {
 
-    d_l = 0;
-    e_k = 0;
     x   = 0;
     y   = 0;
 
 }
 
-
-void Interaction::initPencil(float p, float d, float gp, float cp, float wp,
-                             Elem* first, Elem* last) {
-
-    pencil.init(p, d, gp, cp, wp, first, last);
-
-}
-
-
-void initPaper() {
-
-    paper.init();
-
-}
-
-
-void Interaction::setXY(int coordx, int coordy) {
+void Interaction::setXY(float ox, float oy, float offsetX, float offsetY) {
     
-    x = coordx;
-    y = coordy;
+    x = ox + offsetX;
+    y = oy + offsetY;
+
+}
+
+float Interaction::calD_l() {
+
+    float h_max = paper.getH_max(x, y);
+    float h_min = paper.getH_min(x, y);
+    float p_a   = pencil.getAvgPressure();
+    float d_l = h_max - h_max * p_a;
+    return d_l < h_min ? h_min : d_l;
+    
+}
+
+float Interaction::calH_k(float d_l) {
+
+    return paper.getH(x, y) - d_l * pencil.da();
+
+}
+
+float Interaction::calB_v(float d_l) {
+
+   if (paper.getH(x, y) > d_l)
+       return paper.getT_v(x, y);
+
+    float hp_max = paper.getHp_max(x, y);
+    float hp_min = paper.getHp_min(x, y);
+    float b_v =  paper.getT_v(x, y) * (hp_max - d_l) / (hp_max - hp_min);
+    return b_v * pencil.ba();
 
 }
 
 
-void Interaction::calT_k() {
+float Interaction::calT_k(float b_k) {
 
-    set<Elem>::iterator iter = pencil.getAllPoints.begin();
+    return (pencil.getGP()
+          + pencil.getCP()
+          + pencil.getWP())
+          * b_k;
+}
 
-    for (; iter != pencil.getAllPoints.end(); ++iter) {
+void Interaction::act(float mx, float my) {
 
-        int tempx = x + iter->x;
-        int tempy = y + iter->y;
-        float hmax = paper.getH_max(tempx, tempy);
-        float hmin = paper.getH_min(tempx, tempy);
-        
-        // 计算d_l
-        float d_l = hmax - hmax * pencil.getAvgPressure();
-        if (d_l < hmin)
-            d_l = hmin;
+    set<Elem>& points = pencil.getAllPoints();
+    set<Elem>::iterator it;
 
-        // 更新突起高度
-        float E = d_l * pencil.da() * paper.getW();
-        float h = paper.getH(tempx, tempy) - E;
-        paper.update(h, tempx, tempy);
-         
-        // 计算突起对应铅笔位置上的损耗 
-        if (paper.getH(tempx, tempy) >= d_l)
-            iter->b = paper.getT_v(tempx, tempy);
-        else {
-
-            float h_m = (paper.getHp_max(tempx, tempy) - d_l) /
-                        (paper.getHp_max(tempx, tempy) - paper.getHp_min(tempx, tempy));
-            iter->b = paper.getT_v(tempx, tempy) * h_m;
-        }
-        
-        // 调整B_v
-        pencil.BVAdjuster(iter->b);
+    for (it = points.begin(); it != points.end(); ++it) {
+        setXY(it->x, it->y, x, y);
+        float d_l = calD_l();
+        float h_k = calH_k(d_l);
+        float b_v = calB_v(d_l);
+        paper.setB_v(x, y, b_v);
+        paper.updateH(x, y, h_k);
 
     }
 
-    iter = pencil.getAllPoints.begin();
-    // 计算4个位置
-    float B = 0;
-    for (; iter != pencil.getAllPoints.end(); ++iter) {
-        int tempx = x + iter->x;   
-        int tempy = y + iter->y;
+    for (it = points.begin(); it != points.end(); ++it) {
+        setXY(it->x, it->y, x, y);
+        float d_l = calD_l();
+        float h_k = calH_k(d_l);
+        float b_k = paper.getB_k(pencil.getAvgPressure(), x, y);
+        float t_k = calT_k(b_k);
+        paper.updateH(x, y, h_k);
+        paper.updateT(x, y, t_k);
 
-        Grain* G = relativeGrains(tempx, tempy);
-        float currentH = paper.getH(tempx, tempy);
-        for (int i = 0; i < 4; ++i, ++G)
-            B += G->getB_v() * G->calD_k(currentH);
-
-        if (paper.getT_v(tempx, tempy) >= paper.getL_k(tempx, tempy))   
-            B = B * pow(paper.getM(), pencil.getAvgPressure());
-
-        float G = pencil.getGP() * B;
-        float C = pencil.getCP() * B;
-        float W = pencil.getWP() * B;
-
-        float T = G + C + W;
-        paper.updateT_k(tempx, tempy, T);
-    
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
