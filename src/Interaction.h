@@ -37,10 +37,7 @@ public:
                     Elem* first, Elem* last);
     void initPaper();
     void setXY(int coordx, int coordy);
-    void calPencilB_v(); // 计算值后Pencil的BVadjust()函数
-    void calE_k();              // 计算纸张损耗的总重量
-    void calGray(int x, int y); // 通过xy计算灰度值，调用铅笔的calAllPoints()函数得到所影响的点，传给Paper的calGrain()进行运算
-    void updateAllGrains(pencil, d_l); // 通过传进铅笔的硬度和铅笔距离纸的高度更新突起的高度,调用Grain的updateH_k()函数
+    void calT_k(); // 计算值后Pencil的BVadjust()函数
     
 };
     

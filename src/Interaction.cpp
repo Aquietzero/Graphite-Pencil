@@ -51,7 +51,7 @@ void Interaction::setXY(int coordx, int coordy) {
 }
 
 
-void Interaction::calPencilB_v() {
+void Interaction::calT_k() {
 
     set<Elem>::iterator iter = pencil.getAllPoints.begin();
 
@@ -87,7 +87,6 @@ void Interaction::calPencilB_v() {
 
     }
 
-
     iter = pencil.getAllPoints.begin();
     // 计算4个位置
     float B = 0;
@@ -109,15 +108,6 @@ void Interaction::calPencilB_v() {
 
         float T = G + C + W;
         paper.updateT_k(tempx, tempy, T);
-
-    }
-
-    
-
-             
-
-
-
     
     }
 }
