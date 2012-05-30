@@ -18,15 +18,27 @@
 
 #include "const.h"
  
-Interaction::Interaction(Paper p, Pencil pen) {
+Interaction::Interaction() {
 
     d_l = 0;
     e_k = 0;
     x   = 0;
     y   = 0;
 
-    paper(p);
-    pencil(pen);
+}
+
+
+void Interaction::initPencil(float p, float d, float gp, float cp, float wp,
+                             Elem* first, Elem* last) {
+
+    pencil.init(p, d, gp, cp, wp, first, last);
+
+}
+
+
+void initPaper() {
+
+    paper.init();
 
 }
 
@@ -47,26 +59,29 @@ void Interaction::calD_l() {
 
         int tempx = x + iter->x;
         int tempy = y + iter->y;
-        float hmax = p.getH_max(tempx, tempy);
-        float hmin = p.getH_min(tempx, tempy);
+        float hmax = paper.getH_max(tempx, tempy);
+        float hmin = paper.getH_min(tempx, tempy);
         
-        float d_l = hmax - hmax * p.getAvgPressure();
+        float d_l = hmax - hmax * pencil.getAvgPressure();
         if (d_l < hmin)
             d_l = hmin;
         
-        float B_v = 0;
-        if (p.getH(tempx, tempy) >= B_v)
-            B_v = p.getT_v(tempx, tempy);
+        if (paper.getH(tempx, tempy) >= d_l)
+            iter->B_v = paper.getT_v(tempx, tempy);
         else {
 
-            float h_m = (p.getHp_max(tempx, tempy) - d_l) /
-                        (p.getHp_max(tempx, tempy) - p.getHp_min(tempx, tempy));
-            B_v = p.getT_v(tempx, tempy);
+            float h_m = (paper.getHp_max(tempx, tempy) - d_l) /
+                        (paper.getHp_max(tempx, tempy) - paper.getHp_min(tempx, tempy));
+            iter->B_v = paper.getT_v(tempx, tempy) * h_m;
         }
 
         pencil.BVAdjuster(B_v);
-        
-        float B_k = B_v * d_l;        
+        ////////////////////////////////////////////
+        float B_k = B_v * paper.getTop(tempx, tempy);       
+        float g_k, G_k = 0;
+
+        for (int i = 0; i < 4; ++i) {
+            g_k = pencil.getGP() * B_k;
 
 
 
