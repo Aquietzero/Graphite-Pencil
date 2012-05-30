@@ -1,20 +1,26 @@
 #include <stdlib.h>
 #include "const.h"
 
-Paper::Paper(int w, int h, float fv, float pw, float pm): f_v(fv), W(pw), M(pm) {
+Paper::Paper() {
 
+    width  = height = f_v = W = M = 0;
+    grains = NULL;
+
+}
+void Paper::init(int w, int h, float fv, float pw, float pm) {
+    
+    width  = w;
+    height = h;
+    f_v    = fv;
+    W      = pw;
+    M      = pm;
     grains = new Grain* [w];
     for (int i = 0; i < w; ++i)
         grains[i] = new Grain[h];
 
-    width  = w;//实际的索引是［1，w-2］
-    height = h;//实际的索引是［1，h-2］
-
-    init();
-
 }
 
-void Paper::init() {
+void Paper::initAllGrains() {
     // 初始化每个突起相关的三个副高度和三个主高度
     // 纸张实际操作大小为［1，width-2］［1, height-2］,边界不处理
     for (int x = 1; x < width - 1; ++x)

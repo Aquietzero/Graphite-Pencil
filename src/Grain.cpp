@@ -5,7 +5,7 @@ Grain::Grain() {
 
     h = hp = 0;
     h_max = h_min = hp_max = hp_min = 0;
-    d_k = t_v = l_k = 0;
+    d_k = t_v = l_k = t_k = 0;
 
     minor_right = minor_bottom = minor_rightBottom = NULL; 
     major_left  = major_top    = major_leftTop     = NULL; 
@@ -94,7 +94,13 @@ void Grain::updateL_k() {
 
 }
 
-void Grain::update(float newH, float f_v) {
+void Grain::updateT_k(float tk) {
+
+    t_k = tk;
+
+}
+
+void Grain::update(float newH, float f_v, float tk) {
 
     updateH(newH);
 
@@ -102,6 +108,8 @@ void Grain::update(float newH, float f_v) {
     major_left->updateByH(f_v);
     major_top->updateByH(f_v);
     major_leftTop->updateByH(f_v);
+
+    updateT_k(tk);
 
 }
 

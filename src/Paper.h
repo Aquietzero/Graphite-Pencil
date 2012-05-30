@@ -10,16 +10,17 @@ private:
     int   width;
     int   height;
                                   // 放弃边界上的所有突起以便后续操作，实际索引起始为［1，h-2］［1, w-2］
-    const float f_v;              // 常量属性，值域范围[1000, 3000]
-    const float W;                // 纸张重量，值域范围[0, 1]
-    const float M;                // 常量，值域范围[0.97, 0.99]
+    float f_v;              // 常量属性，值域范围[1000, 3000]
+    float W;                // 纸张重量，值域范围[0, 1]
+    float M;                // 常量，值域范围[0.97, 0.99]
     
     Grain& grain(int x, int y);                               // 获取突起
+    void initAllGrains();
 
 public:
-    Paper(int w, int h, float fv, float pw, float pm);        // 根据输入参数初始化纸张及各个高度
-    void init();   
-    void update(float newH, int x, int y);                    // 更具交互结果更新相应突起
+    Paper();   
+    void init(int w, int h, float fv, float pw, float pm);        // 根据输入参数初始化纸张及各个高度
+    void update(float newH, int x, int y);                        // 更具交互结果更新相应突起
 
     float  getH(int x, int y)  { return grain(x, y).getH(); }
     float  getH_max(int x, int y)  { return grain(x, y).getH_max(); }

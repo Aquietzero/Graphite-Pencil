@@ -15,6 +15,7 @@ private:
     float d_k;    // D_k, 各高度比率
     float t_v;    // 突起最大笔屑容量
     float l_k;    // 各高度的最大笔屑容量
+    float t_k;
 
     Grain* minor_right;     // 表示该高度所持有的另外三个副高度
     Grain* minor_bottom;
@@ -41,12 +42,13 @@ private:
     void updateD_k();
     void updateT_v(float f_v);
     void updateL_k();
+    void updateT_k(float tk);
 
 public:
     Grain();
     void init(Grain* ir, Grain* ib, Grain* irb,   // i前缀表示副高度，a前缀表示主高度
               Grain* ar, Grain* ab, Grain* arb);  // 在使用Grain前必须初始化Grian左，下，左下三个方向的突起高度
-    void update(float newH, float f_v);           // 更新突起主高度
+    void update(float newH, float f_v, float tk);   
 
     float getH()      { return h; }
     float getH_max()  { return h_max; }
@@ -57,6 +59,7 @@ public:
     float getD_k()    { return d_k; }    
     float getT_v()    { return t_v; }    
     float getL_k()    { return l_k; }    
+    float getT_k()    { return t_k; }
 
     Grain& getLeft()        { return *major_left; }
     Grain& getTop()         { return *major_top; }
