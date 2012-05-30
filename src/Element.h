@@ -21,7 +21,7 @@ struct Elem {
     float y; // 定点坐标 (x, y)
     float c; // 压力系数 [0, 1]
     float p; // 压力
-    float b;
+    float b; // 损耗
 
 };
 
