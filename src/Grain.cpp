@@ -2,151 +2,159 @@
 #include "const.h"
 
 Grain::Grain() {
-
-    h = hp = 0;
-    h_max = h_min = hp_max = hp_min = 0;
-    d_k = t_v = l_k = t_k = 0;
-
-    minor_right = minor_bottom = minor_rightBottom = NULL; 
-    major_left  = major_top    = major_leftTop     = NULL; 
+    
+    h = t = 0;
+    relativeGrains = {0};
 
 }
 
 void Grain::init(Grain* ir, Grain* ib, Grain* irb,
                  Grain* ar, Grain* ab, Grain* arb) {
 
-    minor_right       = ir;
-    minor_bottom      = ib;
-    minor_rightBottom = irb;
+   relativeGrains[0] = ar;
+   relativeGrains[1] = ab;
+   relativeGrains[2] = arb;
 
-    major_left        = ar;
-    major_top         = ab;
-    major_leftTop     = arb;
-
-}
-
-void Grain::updateH(float newH) {
-
-    h = newH;
+   relativeGrains[3] = this;
+   
+   relativeGrains[4] = ib;
+   relativeGrains[5] = irb;
+   relativeGrains[6] = irb;
 
 }
 
-void Grain::updateH_max() {
+void Grain::updateH(float gh) {
 
-    h_max = MAX4(h,
-                 minor_right->getH(),
-                 minor_bottom->getH(),
-                 minor_rightBottom->getH());
+    h = gh;
 
 }
 
-void Grain::updateH_min() {
+void Grain::updateH(float gt) {
 
-    h_min = MIN4(h,
-                 minor_right->getH(),
-                 minor_bottom->getH(),
-                 minor_rightBottom->getH());
+    t = gt;
 
 }
 
-void Grain::updateHp() {
+float Grain::getH() {
 
-    hp = h_max - h;
-
-}
-
-void Grain::updateHp_max() {
-
-    h_max = MAX4(h,
-                 minor_right->getHp(),
-                 minor_bottom->getHp(),
-                 minor_rightBottom->getHp());
+    return h;
 
 }
 
-void Grain::updateHp_min() {
+float Grain::getH_max() {
 
-    h_min = MIN4(h,
-                 minor_right->getHp(),
-                 minor_bottom->getHp(),
-                 minor_rightBottom->getHp());
-
-}
-
-void Grain::updateD_k() {
- 
-    d_k = h / getH_sum();
+    return MAX4(relativeGrains[BELOWER_FIRST + 0]->getH(),
+                relativeGrains[BELOWER_FIRST + 1]->getH(),
+                relativeGrains[BELOWER_FIRST + 2]->getH(),
+                relativeGrains[BELOWER_FIRST + 3]->getH());
 
 }
 
-void Grain::updateT_v(float f_v) {
+float Grain::getH_min() {
 
-    t_v = f_v * getHp_sum() / 4;
-
-}
-
-void Grain::updateL_k() {
-
-    l_k = this->calL_k(h)
-        + major_left->calL_k(h)
-        + major_top->calL_k(h)
-        + major_leftTop->calL_k(h);
+    return MIN4(relativeGrains[BELOWER_FIRST + 0]->getH(),
+                relativeGrains[BELOWER_FIRST + 1]->getH(),
+                relativeGrains[BELOWER_FIRST + 2]->getH(),
+                relativeGrains[BELOWER_FIRST + 3]->getH());
 
 }
 
-void Grain::updateT_k(float tk) {
-
-    t_k = tk;
-
-}
-
-void Grain::update(float newH, float f_v, float tk) {
-
-    updateH(newH);
-
-    this->updateByH(f_v);
-    major_left->updateByH(f_v);
-    major_top->updateByH(f_v);
-    major_leftTop->updateByH(f_v);
-
-    updateT_k(tk);
+float Grain::getHp() {
+     
+    return getH_max() - h;
 
 }
 
-void Grain::updateByH(float f_v) {
 
-    updateH_max();
-    updateH_min();
-    updateHp();
-    updateHp_max();
-    updateHp_min();
 
-    updateD_k();
-    updateT_v(f_v);
-    updateL_k();
+float Grain::getHp_max() {
+
+    return MAX4(relativeGrains[UPPER_FIRST + 0]->getHp(),
+                relativeGrains[UPPER_FIRST + 1]->getHp(),
+                relativeGrains[UPPER_FIRST + 2]->getHp(),
+                relativeGrains[UPPER_FIRST + 3]->getHp());
 
 }
+
+float Grain::getHp_max() {
+
+    return MIN4(relativeGrains[UPPER_FIRST + 0]->getHp(),
+                relativeGrains[UPPER_FIRST + 1]->getHp(),
+                relativeGrains[UPPER_FIRST + 2]->getHp(),
+                relativeGrains[UPPER_FIRST + 3]->getHp());
+
+}
+
+float Grain::getT() {
+
+    return t;
+
+}
+
 
 float Grain::getH_sum() {
 
-    return h 
-         + minor_right->getH()
-         + minor_bottom->getH()
-         + minor_rightBottom->getH();
+    int h_sum = 0;
+    for (int i = BELOWER_FIRST; i != BELOWER_LAST; ++i)
+         h_sum += relativeGrains[i]->getH();
+    return h_sum;
 
 }
 
 float Grain::getHp_sum() {
 
-    return hp 
-         + minor_right->getHp()
-         + minor_bottom->getHp()
-         + minor_rightBottom->getHp();
+    int hp_sum = 0;
+    for (int i = BELOWER_FIRST; i != BELOWER_LAST; ++i)
+         h_sum += relativeGrains[i]->getHp();
+    return hp_sum;
 
 }
 
-float Grain::calL_k(float gh) {
+float Grain::getD_k(float gh) {
+
+    return gh / getH_sum();
+
+}
+
+float Grain::getT_v() {
+
+    return f_v * getHp_sum() / 4;
+
+}
+
+float Grain::getL_k() {
+
+    float l_k = 0;
+    for (int i = UPPER_FIRST; i < UPPER_LAST; ++i)
+        l_k += relativeGrains[i]->getD_k(h) * relativeGrains->getT_v();
+    return l_k;
+}
+
+float Grain::getL_k() {
 
     return gh / getH_sum() * t_v;
     
+}
+
+void Grain::setB(float bv) {
+
+    b = bv;
+
+}
+
+float Grain::getB() {
+
+    return b;
+
+}
+
+float Grain::getB_k(float m, float p) {
+ 
+    float b_k = 0;
+    for (int i = UPPER_FIRST; i < UPPER_LAST; ++i)
+        b_k += relativeGrains[i]->getD_k(h) * relativeGrains[i]->getB();
+    if (getT() >= getL_k())
+        b_k *= pow(m, p);
+    return b_k;
+
 }
