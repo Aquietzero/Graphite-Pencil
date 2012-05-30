@@ -14,11 +14,11 @@ private:
     const float W;                // 纸张重量，值域范围[0, 1]
     const float M;                // 常量，值域范围[0.97, 0.99]
     
-    void init();                  // 将各突起高低构造为图结构
     Grain& grain(int x, int y);                               // 获取突起
 
 public:
     Paper(int w, int h, float fv, float pw, float pm);        // 根据输入参数初始化纸张及各个高度
+    void init();   
     void update(float newH, int x, int y);                    // 更具交互结果更新相应突起
 
     float  getH(int x, int y)  { return grain(x, y).getH(); }

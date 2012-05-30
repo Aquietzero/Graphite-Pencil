@@ -29,8 +29,8 @@ private:
     float getHp_sum();
 
     float calL_k(float gh); // 计算某高度分属各个突起所能容纳的最大笔屑数量
-    void updateByH(float f_v); // 更新突起所有其他有关属性以及相关突起高度的属性
 
+    void updateByH(float f_v); // 更新突起所有其他有关属性以及相关突起高度的属性
     void updateH(float newH);
     void updateH_max();
     void updateH_min();

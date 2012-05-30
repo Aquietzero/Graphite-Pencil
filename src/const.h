@@ -31,4 +31,6 @@ using namespace std;
 // 浮点书比较时当两个数字的差值不超过DIFF就认为相等
 #define DIFF 0.000001
 
+#define GRAIN_HK_MAX 100
+
 #endif
