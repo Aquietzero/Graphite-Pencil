@@ -13,29 +13,34 @@ private:
     float f_v;              // 常量属性，值域范围[1000, 3000]
     float M;                // 常量，值域范围[0.97, 0.99]
     float W;
+
+    Grain* g;
     
-    Grain& grain(int x, int y);                               // 获取突起
     void initAllGrains();
 
 public:
     Paper();   
     void init(int w, int h, float fv, float pw, float pm);        // 根据输入参数初始化纸张及各个高度
-    void updateH(int x, int y, float gh) { grain(x, y).updateH(gh); }
-    void updateT(int x, int y, float gt) { grain(x, y).updateH(gt); }
+    void updateH(float gh) { g->updateH(gh); }
+    void updateT(float gt) { g->updateT(gt); }
 
     float  getM() { return M; }
     float  getW() { return W; }
-    float  getH(float x, float y)      { return grain(x, y).getH(); }
-    float  getH_max(float x, float y)  { return grain(x, y).getH_max(); }
-    float  getH_min(float x, float y)  { return grain(x, y).getH_min(); }
-    float  getHp_max(float x, float y) { return grain(x, y).getHp_max(); }
-    float  getHp_min(float x, float y) { return grain(x, y).getHp_min(); }
-    float  getT_v(float x, float y)    { return grain(x, y).getT_v(f_v); }    
-    float  getL_k(float x, float y)    { return grain(x, y).getL_k(f_v); } 
-    float  getB_k(float p, float x, float y)      { return grain(x, y).getB_k(M, p, f_v); }
-    void   setB_v(float bv, float x, float y)     { grain(x, y).setB_v(bv); }
+    float  getH()      { return g->getH(); }
+    float  getH_max()  { return g->getH_max(); }
+    float  getH_min()  { return g->getH_min(); }
+    float  getHp_max() { return g->getHp_max(); }
+    float  getHp_min() { return g->getHp_min(); }
+    float  getT_k()    { return g->getT_k(); }
+    float  getT_v()    { return g->getT_v(f_v); }    
+    float  getL_k()    { return g->getL_k(f_v); } 
+    float  getB_v()    { return g->getB_v(); }
+    float  getB_k(float p)  { return g->getB_k(M, p, f_v); }
+    void   setB_v(float bv) { g->setB_v(bv); }
+    void setPosition(int x, int y);                               // 获取突起
 
-    void show();
+    void show(float p);
+    //void show();
 };
 
 #endif

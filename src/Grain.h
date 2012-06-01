@@ -5,21 +5,21 @@
 class Grain {
 
 private:
-    enum {BELOWER_FIRST=3, BELOWER_LAST=7, UPPER_FIRST=0, UPPER_LAST=4};
-    float h;      // 高度
+    float h; 
     float t;
     float b;
-    Grain* relativeGrains[BELOWER_LAST];
-
-    float getHp();
+    float grey;
+    Grain* relativeGrains[7];
+public:
+    float getHp(float gh);
     float getH_sum();
     float getHp_sum();
     float getD_k(float gh);
 
 public:
     Grain();
-    void init(Grain* ir, Grain* ib, Grain* irb,   // i前缀表示副高度，a前缀表示主高度
-              Grain* ar, Grain* ab, Grain* arb);  // 在使用Grain前必须初始化Grian左，下，左下三个方向的突起高度
+    void init(Grain* al, Grain* au, Grain* alu,   // i前缀表示副高度，a前缀表示主高度
+              Grain* ir, Grain* ib, Grain* irb);  // 在使用Grain前必须初始化Grian左，下，左下三个方向的突起高度
     void updateH(float gh); 
     void updateT(float gt);
     void setB_v(float bv);
@@ -32,7 +32,9 @@ public:
     float getT_v(float f_v);
     float getL_k(float f_v);
     float getB_k(float m, float p, float f_v);
-    float getT();
+    float getT_k();
+
+    float getB_v() {return b;}
 
 };
 

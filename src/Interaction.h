@@ -26,12 +26,11 @@ private:
 
     Paper&  paper;
     Pencil& pencil;
-    float x;
-    float y;
-   
+    int x, y;
+
 public:
     Interaction(Paper& pp,Pencil& pn);
-    void setXY(float ox, float oy, float offsetX, float offsetY);
+    void setPosition(float ox, float oy, float offsetX, float offsetY);
 
     float calD_l();
     float calH_k(float d_l);

@@ -22,7 +22,7 @@
 Pencil pen;
 Paper paper;
 Interaction act(paper, pen);
-
+  
 void SetupRC() {
     
     glClearColor(0, 0, 0, 0);
@@ -69,8 +69,8 @@ void OnMouseDrag(int x, int y) {
 
     glColor3ub(0, 0, 0);
 
-    act.act(x, y);
-    paper.show();
+    act.act(x, WINDOW_HEIGHT - y);
+    paper.show(pen.getGP());
     glutSwapBuffers();
 
 }
@@ -82,9 +82,10 @@ int main(int argc, char **argv) {
     vs[1].set(-5, 0, 0.5, 0.5);
     vs[2].set( 0,-5,0.5, 0.5);
     vs[3].set( 5, 0, 0.5, 0.5);
-    paper.init(800, 600, 0.5, 0.5, 0.5);
-    pen.init(0.5, 0.5, 0.5, 0.5, 0.5, vs, vs+4);  
-
+    paper.init(WINDOW_WIDTH,WINDOW_HEIGHT, 2000, 0.5, 0.5);
+    pen.init(0.5, 0.5, 0.7, 0.1, 0.1, vs, vs+4);  
+    //paper.show(pen.getAvgPressure());
+ 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 
@@ -98,6 +99,7 @@ int main(int argc, char **argv) {
     glutMotionFunc(OnMouseDrag);
       
     glutMainLoop();
+
     return 0;
 
 }

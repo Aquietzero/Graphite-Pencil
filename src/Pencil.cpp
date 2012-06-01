@@ -18,7 +18,7 @@ void Pencil::init(float p, float d, float gp, float cp, float wp,
 
     vertices = vector<Elem>(first, last);
     setPoints();
-
+    
 }
 
 void Pencil::setPoints() {
@@ -35,12 +35,15 @@ void Pencil::setPoints() {
 /* 
  *    1_____2_____3
  */
-void Pencil::setElemByLinearInterpolation(const Elem& e1, Elem& e2, const Elem& e3) {
+bool Pencil::setElemByLinearInterpolation(const Elem& e1, Elem& e2, const Elem& e3) {
 
     float d13 = sqrt((e1.x - e3.x) * (e1.x - e3.x) + (e1.y - e3.y) * (e1.y - e3.y));
     float d12 = sqrt((e1.x - e2.x) * (e1.x - e2.x) + (e1.y - e2.y) * (e1.y - e2.y));
+    if (d13 < DIFF)
+        return false;
     e2.c = d12 / d13 * (e3.c - e1.c) + e1.c;
     e2.p = e2.c * pressure;
+    return true;
 
 }
 
@@ -52,26 +55,51 @@ void Pencil::setElemByLinearInterpolation(const Elem& e1, Elem& e2, const Elem& 
  *     2.————.———.3
  *           4  
  */
-void Pencil::setIntersectionElem(const Elem& e0, const Elem& e1, const Elem& e2, const Elem& e3, Elem& e4) {
+bool Pencil::setLineEquation(const Elem& e1, const Elem& e2, float& a, float& b, float& c) {
 
-    float k1 = (e0.y - e1.y)
-        / (fabs(e0.x - e1.x) <= DIFF ? (e0.x > e1.x ? DIFF : -DIFF) : (e0.x - e1.x));
-    float k2 = (e2.y - e3.y)
-        / (fabs(e2.x - e3.x) <= DIFF ? (e2.x > e3.x ? DIFF : -DIFF) : (e2.x - e3.x));
-    e4.x = (k1 * e1.x - e1.y - k2 * e2.x + e2.y)
-        / (fabs(k1 - k2) <= DIFF ? (k1 > k2 ? DIFF : -DIFF) : (k1 - k2 ));
-    e4.y = k1 * (e4.x - e1.x) + e1.y;
+    if (fabs(e1.x - e2.x) < DIFF) {
+        if (fabs(e1.y - e2.y) < DIFF)
+            return false;
+        a = 1;
+        b = 0;
+        c = -e1.x;
+    }
+    else {
+        float k  = (e1.y - e2.y) / (e1.x - e2.x);
+        a = k;
+        b = -1;
+        c = e1.y - k * e1.x;
+    }
+    return true;
+
+}
+bool Pencil::setIntersectionElem(const Elem& e0, const Elem& e1, const Elem& e2, const Elem& e3, Elem& e4) {
+
+    //  y = k(x - x0) + y0   ax + by + c = 0;
+
+    float a1, b1, c1, a2, b2, c2;
+    if (!setLineEquation(e0, e1, a1, b1, c1))
+        return false;
+    if (!setLineEquation(e2, e3, a2, b2, c2))
+        return false;
+    float k = a1 * b2 - a2 * b1;
+    if (fabs(k) < DIFF)
+        return false;
+    
+    e4.x = (c2 * b1 - c1 * b2) / k;
+    e4.y = (c1 * a2 - c2 * a1) / k;
+    return true;
 
 }
 
 
-void Pencil::setElemByTriangleInterpolation(const Elem& e1, const Elem& e2, const Elem& e3, Elem& e0) {
+bool Pencil::setElemByTriangleInterpolation(const Elem& e1, const Elem& e2, const Elem& e3, Elem& e0) {
 
 
     Elem e4;
-    setIntersectionElem(e0, e1, e2, e3, e4);
-    setElemByLinearInterpolation(e2, e4, e3);
-    setElemByLinearInterpolation(e1, e0, e4);
+    return setIntersectionElem(e0, e1, e2, e3, e4) 
+        && setElemByLinearInterpolation(e2, e4, e3)
+        && setElemByLinearInterpolation(e1, e0, e4);
 
 }
 
@@ -104,13 +132,13 @@ void Pencil::setPointsByRasterize(const Elem& e1, const Elem& e2, const Elem& e3
 
     float left, right, up, down;
     setBorder(left, right, up, down, e1, e2, e3);
-
     for (float x0 = left; x0 <= right; x0 += 1) 
         for (float y0 = down; y0 <= up; y0 += 1) {
             Elem e0(x0, y0);
-            if (isInner(e1, e2, e3, e0))
+            if (setElemByTriangleInterpolation(e1, e2, e3, e0) && isInner(e1, e2, e3, e0)) 
                 points.insert(e0);
         }
+
 }
 
 float Pencil::getAvgPressure() {
@@ -138,8 +166,8 @@ void Pencil::update(float bv) {
     vector<Elem>::iterator it = vertices.begin();
     for (; it != vertices.end(); ++it)
         newVertices.push_back(Elem(it->x * (1 + c_bv),
-                                it->y * (1 + c_bv),
-                                it->c * (1 - c_bv)));
+                                   it->y * (1 + c_bv),
+                                   it->c * (1 - c_bv)));
 
     vertices = newVertices;
     setPoints();

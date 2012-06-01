@@ -17,80 +17,107 @@
  */
 
 #include "const.h"
+#include <iomanip>
   
 Interaction::Interaction(Paper& pp, Pencil& pn): paper(pp), pencil(pn) {
 
-    x   = 0;
-    y   = 0;
+    x = y = 0;
 
 }
 
-void Interaction::setXY(float ox, float oy, float offsetX, float offsetY) {
+void Interaction::setPosition(float ox, float oy, float offsetX, float offsetY) {
     
     x = ox + offsetX;
     y = oy + offsetY;
+    paper.setPosition(x, y);
+    /*
+    cout << "(" << ox << "," << oy << ")"
+         << "(" << offsetX << "," << offsetY << ")"
+         << "(" << x << "," << y << ")";
+    */
 
 }
 
 float Interaction::calD_l() {
 
-    float h_max = paper.getH_max(x, y);
-    float h_min = paper.getH_min(x, y);
+//    return paper.getHp_max() * pencil.getAvgPressure();
+    float h_max = paper.getH_max();
+    float h_min = paper.getH_min();
     float p_a   = pencil.getAvgPressure();
     float d_l = h_max - h_max * p_a;
-    return d_l < h_min ? h_min : d_l;
-    
+    d_l =  d_l < h_min ? h_min : d_l;
+    return d_l;
+   
 }
 
 float Interaction::calH_k(float d_l) {
 
-    return paper.getH(x, y) - d_l * pencil.da();
+//    return paper.getH() * d_l * pencil.da();
+    float h_k = paper.getH() - d_l * pencil.da() * paper.getW();
+    h_k = h_k < 0 ? 0 : h_k;
+    return h_k;
 
 }
 
 float Interaction::calB_v(float d_l) {
 
-   if (paper.getH(x, y) > d_l)
-       return paper.getT_v(x, y);
+//    return  paper.getT_v() * d_l * pencil.ba();
+    if (paper.getH() > d_l)
+       return paper.getT_v();
 
-    float hp_max = paper.getHp_max(x, y);
-    float hp_min = paper.getHp_min(x, y);
-    float b_v =  paper.getT_v(x, y) * (hp_max - d_l) / (hp_max - hp_min);
-    return b_v * pencil.ba();
+    float hp_max = paper.getHp_max();
+    float hp_min = paper.getHp_min();
+    float b_v =  pencil.ba() * paper.getT_v() * (hp_max - d_l) / (hp_max - hp_min);
+    b_v = b_v < 0 ? 0 : b_v;
+    return b_v;
 
 }
 
 
 float Interaction::calT_k(float b_k) {
 
-    return (pencil.getGP()
+  float t_k = (pencil.getGP()
           + pencil.getCP()
           + pencil.getWP())
           * b_k;
+    return t_k;
+
 }
 
 void Interaction::act(float mx, float my) {
 
     set<Elem>& points = pencil.getAllPoints();
     set<Elem>::iterator it;
-
+    
     for (it = points.begin(); it != points.end(); ++it) {
-        setXY(it->x, it->y, x, y);
+        setPosition(it->x, it->y, mx, my);
         float d_l = calD_l();
         float b_v = calB_v(d_l);
-        paper.setB_v(x, y, b_v);
-
+        paper.setB_v(b_v);
     }
 
     for (it = points.begin(); it != points.end(); ++it) {
-        setXY(it->x, it->y, x, y);
+        setPosition(it->x, it->y, mx, my);
         float d_l = calD_l();
         float h_k = calH_k(d_l);
-        float b_k = paper.getB_k(pencil.getAvgPressure(), x, y);
+        float b_k = paper.getB_k(pencil.getAvgPressure());
         float t_k = calT_k(b_k);
-        paper.updateH(x, y, h_k);
-        paper.updateT(x, y, t_k);
-
+/*
+        cout << setw(15) << 1 - t_k * pencil.getGP() / 1000 << ","   
+             << setw(15) << d_l << ","  
+             << setw(15) << h_k << "," 
+             << setw(15) << b_k << ","   
+             << setw(15) << t_k << ","   
+             << setw(15) << paper.getB_v() << ","   
+             << setw(15) << paper.getL_k() << "#"
+             << setw(15) << paper.getH() << ","
+             << setw(15) << paper.getH_max() << ","
+             << setw(15) << paper.getH_min() << "#"
+             << setw(15) << paper.getHp_max() << ","
+             << setw(15) << paper.getHp_min() << "\n";
+*/
+        paper.updateH(h_k);
+        paper.updateT(t_k);
     }
 }
 

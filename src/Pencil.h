@@ -17,10 +17,11 @@ private:
     float BVAdjuster(float bv);//根据突起对应铅笔位置上的损耗调整该损耗对铅笔形状进行调整
 
     void setPoints();         // 光栅话从而得到铅笔多边形所包含的所有点
+    bool setLineEquation(const Elem& e1, const Elem& e2, float& a, float& b, float& c);
     void setPointsByRasterize(const Elem& e1, const Elem& e2, const Elem& e3);
-    void setElemByLinearInterpolation(const Elem& e1, Elem& e2, const Elem& e3);
-    void setElemByTriangleInterpolation(const Elem& e1, const Elem& e2, const Elem& e3, Elem& e0);
-    void setIntersectionElem(const Elem& e0, const Elem& e1, const Elem& e2, const Elem& e3, Elem& e4);
+    bool setElemByLinearInterpolation(const Elem& e1, Elem& e2, const Elem& e3);
+    bool setElemByTriangleInterpolation(const Elem& e1, const Elem& e2, const Elem& e3, Elem& e0);
+    bool setIntersectionElem(const Elem& e0, const Elem& e1, const Elem& e2, const Elem& e3, Elem& e4);
     void setBorder(float& left, float& right, float& up, float& down, const Elem& e1, const Elem& e2, const Elem& e3);
     bool isInner(const Elem& e1, const Elem& e2, const Elem& e3, const Elem& e0);
 
@@ -36,7 +37,7 @@ public:
 
     void update(set<Elem>::iterator it, float bv);
     void update(float bv);
-    float da() { return 0.5; }// 返回值域[0, 1],暂定返回0.5
+    float da() { return 0.1; }// 返回值域[0, 1],暂定返回0.5
     float ba() { return 0.5; }// 返回值域[0, 1],暂定返回0.5
 
     set<Elem>& getAllPoints() { return points; }
