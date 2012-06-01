@@ -102,6 +102,9 @@ void Interaction::act(float mx, float my) {
         float h_k = calH_k(d_l);
         float b_k = paper.getB_k(pencil.getAvgPressure());
         float t_k = calT_k(b_k);
+       
+                
+        
 /*
         cout << setw(15) << 1 - t_k * pencil.getGP() / 1000 << ","   
              << setw(15) << d_l << ","  
@@ -118,6 +121,14 @@ void Interaction::act(float mx, float my) {
 */
         paper.updateH(h_k);
         paper.updateT(t_k);
+
+        float grey =  1 - paper.getT_k() * pencil.getGP() / 1000;
+
+        glColor3f(grey, grey, grey);
+        glBegin(GL_POINTS);
+            glVertex2f(it->x + mx, it->y + my);
+        glEnd();
+ 
     }
 }
 

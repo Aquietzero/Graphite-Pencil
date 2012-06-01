@@ -70,20 +70,22 @@ void OnMouseDrag(int x, int y) {
     glColor3ub(0, 0, 0);
 
     act.act(x, WINDOW_HEIGHT - y);
-    paper.show(pen.getGP());
+   // paper.show(pen.getGP());
     glutSwapBuffers();
 
 }
 
 int main(int argc, char **argv) {
 
-    Elem vs[4];
+    Elem vs[6];
     vs[0].set( 0, 5, 0.5, 0.5);
-    vs[1].set(-5, 0, 0.5, 0.5);
-    vs[2].set( 0,-5,0.5, 0.5);
-    vs[3].set( 5, 0, 0.5, 0.5);
+    vs[1].set( 2, 2, 0.5, 0.5);
+    vs[2].set( 2, -2, 0.5, 0.5);
+    vs[3].set( 0,-5, 0.5, 0.5);
+    vs[4].set( -2, -2, 0.5, 0.5);
+    vs[5].set( -2, 2, 0.5, 0.5);
     paper.init(WINDOW_WIDTH,WINDOW_HEIGHT, 2000, 0.5, 0.5);
-    pen.init(0.5, 0.5, 0.7, 0.1, 0.1, vs, vs+4);  
+    pen.init(0.5, 0.5, 0.4, 0.5, 0.05, vs, vs+6);  
     //paper.show(pen.getAvgPressure());
  
     glutInit(&argc, argv);
