@@ -132,15 +132,3 @@ void Interaction::act(float mx, float my) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
