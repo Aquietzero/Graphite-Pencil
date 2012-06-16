@@ -38,13 +38,18 @@ Interaction.prototype = {
 
   calB_v: function(d_l) {
   
+    var t_v = this.paper.getT_v(this.x, this.y);
+
     if (this.paper.getH(this.x, this.y) > d_l)
-      return this.paper.getT_v(this.x, this.y);
+      return t_v;
 
     var hp_max = this.paper.getHp_max(this.x, this.y);
     var hp_min = this.paper.getHp_min(this.x, this.y);
-    var b_v = this.pencil.ba() * this.paper.getT_v(this.x, this.y) *
-              (hp_max - d_l) / (hp_max - hp_min);
+
+    var divider = hp_max - hp_min;
+    divider = Math.abs(divider) < Const.ZERO ? 1 : divider;
+
+    var b_v = this.pencil.ba() * t_v * (hp_max - d_l) / divider;
     b_v = b_v < 0 ? 0 : b_v;
 
     return b_v;
@@ -64,11 +69,11 @@ Interaction.prototype = {
   
     var points = this.pencil.points;
     var d_l, b_v, h_k, b_k, t_k, grey;
-    this.x = mx;
-    this.y = my;
 
     for (var i = 0; i < points.length; ++i) {
 
+      this.x = mx + points[i].x;
+      this.y = my + points[i].y;
       d_l = this.calD_l();
       b_v = this.calB_v(d_l);
       this.paper.setB_v(mx + points[i].x, my + points[i].y, b_v);
@@ -77,6 +82,9 @@ Interaction.prototype = {
 
     // console.log(points.length);
     for (var i = 0; i < points.length; ++i) {
+
+      this.x = mx + points[i].x;
+      this.y = my + points[i].y;
 
       d_l = this.calD_l();
       h_k = this.calH_k(d_l);
@@ -90,13 +98,9 @@ Interaction.prototype = {
       this.paper.updateH(mx + points[i].x, my + points[i].y, h_k);
       this.paper.updateT(mx + points[i].x, my + points[i].y, t_k);
 
-      grey = 255 * (1 - this.paper.getT_k(mx + points[i].x, my + points[i].y) * this.pencil.getGP() / 1000.0);
-      grey = parseInt(grey);
+      grey = this.paper.getT_k(mx + points[i].x, my + points[i].y) * this.pencil.getGP() / 1000.0;
       
-      canvas.fillStyle = 'rgb(' + 
-        grey + ',' +
-        grey + ',' +
-        grey + ')';
+      canvas.fillStyle = 'rgba(0, 255, 255, ' + grey + ')';
       canvas.fillRect(mx + points[i].x, my + points[i].y, 1, 1);
 
     }

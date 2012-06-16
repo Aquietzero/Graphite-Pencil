@@ -14,20 +14,6 @@ $(function() {
 
   var paper = new Paper(800, 500, 2000, 0.5, 0.5);
 
-  /*
-  var grey;
-  for (var i = 0; i < paper.width; ++i) {
-    for (var j = 0; j < paper.height; ++j) {
-      grey = paper.grains[i][j].h * 255;
-      ctx.fillStyle = 'rgb(' + 
-        Math.floor(grey) + ',' +
-        Math.floor(grey) + ',' +
-        Math.floor(grey) + ')';
-      ctx.fillRect(i, j, 1, 1);
-    }
-  }
-  */
-
   var pencil = new Pencil(0.5, 0.5, 0.4, 0.5, 0.05, elems);
   pencil.getPoints();
 

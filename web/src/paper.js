@@ -114,11 +114,10 @@ Paper.prototype = {
   getL_k: function(i, j) {
 
     var h = this.grains[i][j].h;
-    var f_v = this.f_v;
-    return this.getD_k(i-1, j, h) * this.getT_v(i-1, j, f_v) +
-           this.getD_k(i, j-1, h) * this.getT_v(i, j-1, f_v) +
-           this.getD_k(i-1, j-1, h) * this.getT_v(i-1, j-1, f_v) +
-           this.getD_k(i, j, h) * this.getT_v(i, j, f_v);
+    return this.getD_k(i-1, j, h) * this.getT_v(i-1, j) +
+           this.getD_k(i, j-1, h) * this.getT_v(i, j-1) +
+           this.getD_k(i-1, j-1, h) * this.getT_v(i-1, j-1) +
+           this.getD_k(i, j, h) * this.getT_v(i, j);
 
   },
 
@@ -130,7 +129,7 @@ Paper.prototype = {
               this.getD_k(i-1, j-1, h) * this.grains[i-1][j-1].b +
               this.getD_k(i, j, h) * this.grains[i][j].b;
 
-    return this.grains[i][j].t > this.getL_k(i, j) ? b_k * Math.pow(this.M, p) : b_k;
+    return this.grains[i][j].getT_k() > this.getL_k(i, j) ? b_k * Math.pow(this.M, p) : b_k;
 
   },
 

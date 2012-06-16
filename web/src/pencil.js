@@ -74,6 +74,21 @@ Pencil.prototype = {
 
   getPoints: function() {
     this.points = this.getPointsInPolygon();
+
+    var ps = [];
+    this.points = this.points.sort(function(p1, p2) {
+      return p1.compareTo(p2);
+    });
+
+    var p = this.points[0];
+    ps.push(p);
+    for (var i = 1; i < this.points.length; ++i) {
+      if (this.points[i].compareTo(p) != 0)
+        ps.push(this.points[i]);
+      p = this.points[i];
+    }
+
+    this.points = ps;
   },
 
   getAvgPressure: function() {
@@ -101,7 +116,7 @@ Pencil.prototype = {
     }
 
     this.getPoints();
-    this.pressure *= 1 - bv/5;
+    this.pressure *= 1 - bv/5.0;
   
   },
 

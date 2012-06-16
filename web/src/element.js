@@ -25,20 +25,22 @@ Elem.prototype = {
 
   compareTo: function(other) {
 
-    var d1 = Math.sqrt(this.x*this.x + this.y*this.y);
-    var d2 = Math.sqrt(other.x*other.x + other.y*other.y);
+    var dx = this.x - other.x;
+    var dy = this.y - other.y;
 
-    if (d2 - d1 > Const.ZERO)
-      return 0;
-    else if (Math.abs(d1 - d2) < Const.ZERO) {
-      if (other.x - this.x >= Const.ZERO)
+    if (dx < -Const.ZERO)
+      return -1;
+    else if (dx > Const.ZERO)
+      return 1;
+    else {
+      if (dy < -Const.ZERO)
         return -1;
-      else if (Math.abs(this.x - other.x) < Const.ZERO && 
-               other.y - this.y >= Const.ZERO)
-        return -1;
+      else if (dy > Const.ZERO)
+        return 1;
+      else
+        return 0;
     }
-    return 1;
-
+    
   },
 
   /* Simple linear interpolation
