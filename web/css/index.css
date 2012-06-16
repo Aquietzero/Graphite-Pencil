@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #eee;
+}
+
+#pencil-canvas {
+    display: block;
+    margin: 50px auto;
+    border: solid 1px #ddd;
+    background-color: white;
+}

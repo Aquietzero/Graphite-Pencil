@@ -1,5 +1,6 @@
 #include "const.h"
 #include <iomanip>
+
 Paper::Paper() {
 
     width  = height = f_v = M = 0;
@@ -7,6 +8,7 @@ Paper::Paper() {
     g = NULL;
 
 }
+
 void Paper::init(int w, int h, float fv, float pw, float pm) {
     
     width  = w;
@@ -31,6 +33,7 @@ void Paper::initAllGrains() {
             grains[x][y].init(&grains[x-1][y], &grains[x][y-1], &grains[x-1][y-1],
                               &grains[x+1][y], &grains[x][y+1], &grains[x+1][y+1]);
         }
+
 }
 
 void Paper::setPosition(int x, int y) {

@@ -1,5 +1,6 @@
 
 #include "const.h"
+
 Pencil::Pencil() {
 
     pressure = degree = g_p = c_p = w_p = 0;
@@ -35,10 +36,7 @@ void Pencil::setPoints() {
 /* 
  *    1_____2_____3
  */
-bool Pencil::setElemByLinearInterpolation(const Elem& e1, Elem& e2, const Elem& e3) {
-
-    float d13 = sqrt((e1.x - e3.x) * (e1.x - e3.x) + (e1.y - e3.y) * (e1.y - e3.y));
-    float d12 = sqrt((e1.x - e2.x) * (e1.x - e2.x) + (e1.y - e2.y) * (e1.y - e2.y));
+bool Pencil::setElemByLinearInterpolation(const Elem& e1, Elem& e2, const Elem& e3) { float d13 = sqrt((e1.x - e3.x) * (e1.x - e3.x) + (e1.y - e3.y) * (e1.y - e3.y)); float d12 = sqrt((e1.x - e2.x) * (e1.x - e2.x) + (e1.y - e2.y) * (e1.y - e2.y));
     if (d13 < DIFF)
         return false;
     e2.c = d12 / d13 * (e3.c - e1.c) + e1.c;
