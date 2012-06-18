@@ -2,18 +2,38 @@
 <html>
   <head>
     <title>Graphite Pencil Painter</title>
+    <link rel="stylesheet" href="css/index.css" type="text/css" />
     <script type="text/javascript" src="lib/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="src/index.js"></script>
+
     <script type="text/javascript" src="src/const.js"></script>
     <script type="text/javascript" src="src/element.js"></script>
     <script type="text/javascript" src="src/grain.js"></script>
     <script type="text/javascript" src="src/paper.js"></script>
     <script type="text/javascript" src="src/pencil.js"></script>
     <script type="text/javascript" src="src/interaction.js"></script>
-    <link rel="stylesheet" href="css/index.css" type="text/css" />
+
+    <script type="text/javascript" src="ui/shape.js"></script>
+    <script type="text/javascript" src="ui/painter.js"></script>
+    <script type="text/javascript" src="src/index.js"></script>
   </head>
   <body>
-    <canvas id="pencil-canvas" width="800px" height="500px">
-    </canvas>
+    <div id="header">
+      <h1>Graphite Pencil</h1>
+    </div>
+
+    <div id="main-container">
+      <canvas id="pencil-canvas" width="1500px" height="500px"></canvas>
+    </div>
+
+    <div id="sidebar">
+      <div id="pencil-shape">
+        <canvas id="shape" width="250px" height="200px"></canvas>
+        <div id="tool-buttons">
+          <button id="resetShape">Reset</button>
+          <button id="commitShape">Commit</button>
+        </div>
+      </div>
+    </div>
+
   </body>
 </html>

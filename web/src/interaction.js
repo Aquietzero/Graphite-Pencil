@@ -13,6 +13,10 @@ function Interaction(pp, pn) {
 
 Interaction.prototype = {
 
+  setPencil: function(pencil) {
+    this.pencil = pencil;
+  },
+
   calD_l: function() {
   
     var h_max = this.paper.getH_max(this.x, this.y);
@@ -28,8 +32,8 @@ Interaction.prototype = {
 
   calH_k: function(d_l) {
   
-    h_k = this.paper.getH(this.x, this.y) - 
-          this.pencil.da()*this.paper.getW() * d_l;
+    var h_k = this.paper.getH(this.x, this.y) - 
+              this.pencil.da()*this.paper.getW() * d_l;
     h_k = h_k < 0 ? 0 : h_k;
 
     return h_k;
@@ -58,9 +62,9 @@ Interaction.prototype = {
 
   calT_k: function(b_k) {
 
-    t_k = (this.pencil.getGP() +
-           this.pencil.getCP() +
-           this.pencil.getWP()) * b_k;
+    var t_k = (this.pencil.getGP() +
+               this.pencil.getCP() +
+               this.pencil.getWP()) * b_k;
     return t_k;
   
   },
@@ -98,9 +102,10 @@ Interaction.prototype = {
       this.paper.updateH(mx + points[i].x, my + points[i].y, h_k);
       this.paper.updateT(mx + points[i].x, my + points[i].y, t_k);
 
-      grey = this.paper.getT_k(mx + points[i].x, my + points[i].y) * this.pencil.getGP() / 1000.0;
+      grey = this.paper.getT_k(mx + points[i].x, my + points[i].y) / 1000.0;
+      grey = grey > 1 ? 1 : grey;
       
-      canvas.fillStyle = 'rgba(0, 255, 255, ' + grey + ')';
+      canvas.fillStyle = 'rgba(0, 0, 255, ' + grey + ')';
       canvas.fillRect(mx + points[i].x, my + points[i].y, 1, 1);
 
     }

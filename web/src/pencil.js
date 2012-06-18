@@ -13,8 +13,6 @@ function Pencil(p, d, gp, cp, wp, vs) {
   this.vertices = vs;
   this.points   = [];
 
-  // console.log(this.vertices);
-
 }
 
 Pencil.prototype = {
@@ -73,8 +71,10 @@ Pencil.prototype = {
   },
 
   getPoints: function() {
+    
     this.points = this.getPointsInPolygon();
 
+    // delete repeated points.
     var ps = [];
     this.points = this.points.sort(function(p1, p2) {
       return p1.compareTo(p2);
@@ -89,6 +89,23 @@ Pencil.prototype = {
     }
 
     this.points = ps;
+    this.pointsCoordinatesToInt();
+
+  },
+
+  pointsCoordinatesToInt: function() {
+  
+    for (var i = 0; i < this.points.length; ++i) {
+      var x = this.points[i].x;
+      var y = this.points[i].y;
+
+      x = x > 0 ? Math.ceil(x) : Math.floor(x);
+      y = y > 0 ? Math.ceil(y) : Math.floor(y);
+
+      this.points[i].x = x;
+      this.points[i].y = y;
+    }
+
   },
 
   getAvgPressure: function() {
@@ -102,7 +119,7 @@ Pencil.prototype = {
   },
 
   BVAdjuster: function(bv) {
-    return bv;  
+    return bv;
   },
   
   update: function(bv) {
