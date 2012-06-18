@@ -8,6 +8,7 @@ function Interaction(pp, pn) {
   this.pencil = pn;
   this.x = 0;
   this.y = 0;
+  this.color = 'rgba(0, 0, 0, ';
 
 }
 
@@ -15,6 +16,10 @@ Interaction.prototype = {
 
   setPencil: function(pencil) {
     this.pencil = pencil;
+  },
+
+  setColor: function(color) {
+    this.color = 'rgba(' + color.R + ',' + color.G + ',' + color.B + ',';
   },
 
   calD_l: function() {
@@ -78,6 +83,7 @@ Interaction.prototype = {
 
       this.x = mx + points[i].x;
       this.y = my + points[i].y;
+
       d_l = this.calD_l();
       b_v = this.calB_v(d_l);
       this.paper.setB_v(mx + points[i].x, my + points[i].y, b_v);
@@ -103,9 +109,10 @@ Interaction.prototype = {
       this.paper.updateT(mx + points[i].x, my + points[i].y, t_k);
 
       grey = this.paper.getT_k(mx + points[i].x, my + points[i].y) / 1000.0;
-      grey = grey > 1 ? 1 : grey;
+      grey = grey > 1 ? 0 : grey;
       
-      canvas.fillStyle = 'rgba(0, 0, 255, ' + grey + ')';
+      console.log(this.color);
+      canvas.fillStyle = this.color + grey + ')';
       canvas.fillRect(mx + points[i].x, my + points[i].y, 1, 1);
 
     }

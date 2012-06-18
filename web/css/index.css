@@ -23,20 +23,36 @@ body {
   z-index: 100;
 }
 
+#sidebar button {
+  height: 25px;
+}
+
+#sidebar .tool-buttons {
+  margin: 10px auto;
+  text-align: center;
+  vertical-align: center;
+}
+
 #sidebar #pencil-shape {
   margin: 0;
   padding: 0;
 }
 
-#sidebar #pencil-shape #shape {
+#sidebar #pencil-shape #shapeGetter {
   display: block;
   margin: 20px auto;
   border: dashed 1px black;
 }
 
-#sidebar #pencil-shape #tool-buttons {
-  margin: 10px auto;
-  text-align: center;
+#sidebar #pencil-color #colorPicker {
+  display: block;
+  margin: 20px auto;
+  border: dashed 1px black;
+}
+
+#sidebar #pencil-color #colorPreview {
+  margin: auto;
+  border: dashed 1px black;
 }
 
 #main-container {

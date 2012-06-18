@@ -20,26 +20,6 @@ function Paper(w, h, fv, pw, pm) {
         gs[i][j] = new Grain(Math.random());    
     }
 
-    /*
-    for (var i = 0; i < w; ++i) {
-      gs[i] = new Array(h);
-      var h1 = 0;
-      var h2 = h/4;
-      var h3 = h/2;
-      var h4 = h*3/4;
-
-      for (var j = h1; j < h2; ++j) 
-        gs[i][j] = new Grain(1);
-      for (var j = h2; j < h3; ++j) 
-        gs[i][j] = new Grain(0.75);
-      for (var j = h3; j < h4; ++j) 
-        gs[i][j] = new Grain(0.5);
-      for (var j = h4; j < h; ++j) 
-        gs[i][j] = new Grain(0.25);
-
-    }
-    */
-
     return gs;
   
   })(w, h);

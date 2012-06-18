@@ -32,16 +32,25 @@ Painter.prototype = {
 
     this.interaction = new Interaction(this.paper, this.pencil);
 
-    this._initShaperGetter();
+    this._initColorPicker();
+    this._initShapeGetter();
     this._bindDrawEvent();
+    this._bindColorPickerEvent();
     this._bindShapeGetterEvent();
 
   },
 
-  _initShaperGetter: function() {
+  _initShapeGetter: function() {
 
-    this.shape = new ShapeGetter('shape');
-    this.shape.init();
+    this.shapeGetter = new ShapeGetter('shapeGetter');
+    this.shapeGetter.init();
+
+  },
+
+  _initColorPicker: function() {
+  
+    this.colorPicker = new ColorPicker('colorPicker', 'colorPreview');
+    this.colorPicker.init();
 
   },
 
@@ -64,6 +73,10 @@ Painter.prototype = {
       if (is_down) {
         var x = e.clientX - $(this).offset().left;
         var y = e.clientY - $(this).offset().top;
+
+        x = Math.floor(x);
+        y = Math.floor(y);
+
         _that.interaction.act(x, y, _that.canvas);
       }
 
@@ -74,22 +87,35 @@ Painter.prototype = {
   _bindShapeGetterEvent: function() {
   
     var _that = this;
-    var resetButton  = $('#resetShape');
-    var commitButton = $('#commitShape');
+    var resetButton  = $('#resetShapeGetter');
+    var commitButton = $('#commitShapeGetter');
 
-    var resetShapeHandler = function() {
-      _that.shape.reset();
+    var resetShapeGetterHandler = function() {
+      _that.shapeGetter.reset();
     }
 
-    var commitShapeHandler = function() {
-      _that.pencil = new Pencil(0.5, 0.1, 0.9, 0.5, 0.05, _that.shape.vertices);
+    var commitShapeGetterHandler = function() {
+      _that.pencil = new Pencil(0.5, 0.1, 0.9, 0.5, 0.05, _that.shapeGetter.vertices);
       _that.pencil.getPoints();
       _that.interaction.setPencil(_that.pencil);
     }
 
-    resetButton.click(resetShapeHandler);
-    commitButton.click(commitShapeHandler);
+    resetButton.click(resetShapeGetterHandler);
+    commitButton.click(commitShapeGetterHandler);
 
+  },
+
+  _bindColorPickerEvent: function() {
+
+    var _that = this;
+    var commitButton = $('#commitColor');
+
+    var commitShapeGetterHandler = function() {
+      _that.interaction.setColor(_that.colorPicker.color);
+    }
+
+    commitButton.click(commitShapeGetterHandler);
+ 
   },
 
 }

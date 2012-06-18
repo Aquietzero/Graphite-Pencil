@@ -12,7 +12,8 @@
     <script type="text/javascript" src="src/pencil.js"></script>
     <script type="text/javascript" src="src/interaction.js"></script>
 
-    <script type="text/javascript" src="ui/shape.js"></script>
+    <script type="text/javascript" src="ui/shape_getter.js"></script>
+    <script type="text/javascript" src="ui/color_picker.js"></script>
     <script type="text/javascript" src="ui/painter.js"></script>
     <script type="text/javascript" src="src/index.js"></script>
   </head>
@@ -27,10 +28,20 @@
 
     <div id="sidebar">
       <div id="pencil-shape">
-        <canvas id="shape" width="250px" height="200px"></canvas>
-        <div id="tool-buttons">
-          <button id="resetShape">Reset</button>
-          <button id="commitShape">Commit</button>
+        <canvas id="shapeGetter" width="250px" height="200px"></canvas>
+        <div class="tool-buttons">
+          <button id="resetShapeGetter">Reset</button>
+          <button id="commitShapeGetter">Commit</button>
+        </div>
+      </div>
+
+      <div id="pencil-color">
+        <canvas id="colorPicker" width="250px" height="200px"></canvas>
+        <div class="tool-buttons">
+          <canvas id="colorPreview" width="50px" height="20px"></canvas>
+        </div>
+        <div class="tool-buttons">
+          <button id="commitColor">Commit</button>
         </div>
       </div>
     </div>
