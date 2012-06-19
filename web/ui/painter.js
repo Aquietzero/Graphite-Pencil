@@ -14,12 +14,13 @@ function Painter(dom_id) {
 Painter.prototype = {
 
   DEFAULT_ELEMS: [
-    new Elem( 0,  2, 0.5, 0.5),
-    new Elem( 1,  1, 0.5, 0.5),
-    new Elem( 1, -1, 0.5, 0.5),
-    new Elem( 0, -2, 0.5, 0.5),
-    new Elem(-1, -1, 0.5, 0.5),
-    new Elem(-1,  1, 0.5, 0.5)
+    new Elem(  0.5,   0.5, 1.0, 1.0),
+    new Elem(  0.5,  20.5, 0.5, 0.5),
+    new Elem( 10.5,  10.5, 0.5, 0.5),
+    new Elem( 10.5, -10.5, 0.5, 0.5),
+    new Elem(  0.5, -20.5, 0.5, 0.5),
+    new Elem(-10.5, -10.5, 0.5, 0.5),
+    new Elem(-10.5,  10.5, 0.5, 0.5)
   ],
 
   init: function() {

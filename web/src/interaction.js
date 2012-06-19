@@ -111,7 +111,6 @@ Interaction.prototype = {
       grey = this.paper.getT_k(mx + points[i].x, my + points[i].y) / 1000.0;
       grey = grey > 1 ? 0 : grey;
       
-      console.log(this.color);
       canvas.fillStyle = this.color + grey + ')';
       canvas.fillRect(mx + points[i].x, my + points[i].y, 1, 1);
 

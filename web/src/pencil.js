@@ -13,6 +13,8 @@ function Pencil(p, d, gp, cp, wp, vs) {
   this.vertices = vs;
   this.points   = [];
 
+  this.pointsCoordinatesToInt();
+
 }
 
 Pencil.prototype = {
@@ -55,6 +57,7 @@ Pencil.prototype = {
     var v1, v2, v3;
     var ps;
     var points = [];
+    this.vertices.push(this.vertices[1]);
 
     v1 = this.vertices[0];
     for (var i = 1; i < this.vertices.length - 1; ++i) {
@@ -89,21 +92,20 @@ Pencil.prototype = {
     }
 
     this.points = ps;
-    this.pointsCoordinatesToInt();
 
   },
 
   pointsCoordinatesToInt: function() {
   
-    for (var i = 0; i < this.points.length; ++i) {
-      var x = this.points[i].x;
-      var y = this.points[i].y;
+    for (var i = 0; i < this.vertices.length; ++i) {
+      var x = this.vertices[i].x;
+      var y = this.vertices[i].y;
 
       x = x > 0 ? Math.ceil(x) : Math.floor(x);
       y = y > 0 ? Math.ceil(y) : Math.floor(y);
 
-      this.points[i].x = x;
-      this.points[i].y = y;
+      this.vertices[i].x = x;
+      this.vertices[i].y = y;
     }
 
   },

@@ -67,7 +67,7 @@ ShapeGetter.prototype = {
     canvas.stroke();
 
     this.isClosed = false;
-    this.vertices = [];
+    this.vertices = [new Elem(0, 0, 1.0, 1.0)];
     this.verticesOriginal = [];
     
   },
@@ -97,7 +97,7 @@ ShapeGetter.prototype = {
       _that._drawPoint({ x:x, y:y });
 
       x = _that._convertX(x);
-      y = _that._convertX(y);
+      y = _that._convertY(y);
 
       console.log(x, y);
       _that.vertices.push(new Elem(x, y, 0.5, 0.5));
@@ -164,7 +164,7 @@ ShapeGetter.prototype = {
   },
 
   _convertY: function(y) {
-    return (y - this.origin[1]) * 10 / this.height;
+    return (this.origin[1] - y) * 10 / this.height;
   },
 
 }
