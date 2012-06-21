@@ -74,7 +74,16 @@ Interaction.prototype = {
   
   },
 
-  act: function(mx, my, canvas) {
+  // Takes the coordinate of the center of the pencil currently, and then
+  // calculates the points affected, returns the affected point set with
+  // the following object:
+  //
+  // {
+  //   x : the x coordinate of the point.
+  //   y : the y coordinate of the point.
+  //   fillStyle : the color of the point.
+  // }
+  actWithPoint: function(mx, my) {
   
     var points = this.pencil.points;
     var d_l, b_v, h_k, b_k, t_k, grey;
@@ -91,6 +100,7 @@ Interaction.prototype = {
     }
 
     // console.log(points.length);
+    var ps = [];
     for (var i = 0; i < points.length; ++i) {
 
       this.x = mx + points[i].x;
@@ -111,11 +121,33 @@ Interaction.prototype = {
       grey = this.paper.getT_k(mx + points[i].x, my + points[i].y) / 1000.0;
       grey = grey > 1 ? 0 : grey;
       
-      canvas.fillStyle = this.color + grey + ')';
-      canvas.fillRect(mx + points[i].x, my + points[i].y, 1, 1);
+      // canvas.fillStyle = this.color + grey + ')';
+      // canvas.fillRect(mx + points[i].x, my + points[i].y, 1, 1);
+      ps.push({
+        x : mx + points[i].x,
+        y : my + points[i].y,
+        fillStyle : this.color + grey + ')',
+      });
 
     }
+
+    return ps;
   
-  }
+  },
+
+  // The coordinates of the points set should have the following
+  // format:
+  //
+  // {
+  //   x: the x coordinate of the point.
+  //   y: the y coordinate of the point.
+  // }
+  actWithPoints: function(points) {
+  
+    for (var i = 0; i < points; ++i) {
+      this.actWithPoint(points[i].x, points[i].y);
+    }
+  
+  }, 
 
 }
