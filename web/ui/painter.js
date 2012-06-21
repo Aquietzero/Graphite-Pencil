@@ -14,11 +14,11 @@ function Painter(dom_id) {
 Painter.prototype = {
 
   DEFAULT_ELEMS: [
-    new Elem(  0.5,   0.5, 1.0, 1.0),
-    new Elem(  0.5,  2.5, 0.5, 0.5),
+    new Elem( 0.5,  0.5, 1.0, 1.0),
+    new Elem( 0.5,  2.5, 0.5, 0.5),
     new Elem( 1.5,  1.5, 0.5, 0.5),
     new Elem( 1.5, -1.5, 0.5, 0.5),
-    new Elem(  0.5, -2.5, 0.5, 0.5),
+    new Elem( 0.5, -2.5, 0.5, 0.5),
     new Elem(-1.5, -1.5, 0.5, 0.5),
     new Elem(-1.5,  1.5, 0.5, 0.5)
   ],
@@ -61,8 +61,17 @@ Painter.prototype = {
     var is_down = false;
     var canvas = $('#' + this.dom_id);
 
-    canvas.mousedown(function() {
+    canvas.mousedown(function(e) {
       is_down = true;
+
+      var x = e.clientX - $(this).offset().left;
+      var y = e.clientY - $(this).offset().top;
+
+      x = Math.floor(x);
+      y = Math.floor(y);
+
+      _that.interaction.act(x, y, _that.canvas);
+
     });
 
     canvas.mouseup(function() {

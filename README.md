@@ -22,6 +22,7 @@ The TODOs is devided into two main groups.
 
 6. Implement blender and eraser.
 
+7. Layers.
 
 ### UI
 
@@ -30,3 +31,5 @@ The TODOs is devided into two main groups.
 2. Add blender and eraser functionality.
 
 3. Add selection functionality.
+
+4. Uses layer buffer to hold layer pixel information. Then when it comes to rendering needs, calculate the pixel color combined with color of each layer and alpha channel.
