@@ -74,7 +74,6 @@ ColorPicker.prototype = {
         x = Math.floor(x);
         y = Math.floor(y);
 
-
         var imageData = _that.canvas.getImageData(0, 0, _that.width, _that.height);
         var data = imageData.data;
 
