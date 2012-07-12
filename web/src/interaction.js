@@ -99,7 +99,6 @@ Interaction.prototype = {
 
     }
 
-    // console.log(points.length);
     var ps = [];
     for (var i = 0; i < points.length; ++i) {
 

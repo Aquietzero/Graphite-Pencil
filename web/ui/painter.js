@@ -41,11 +41,23 @@ Painter.prototype = {
 
   },
 
+  paintPoint: function(point) {
+
+    var pts = this.interaction.actWithPoint(point.x, point.y);
+    for (var i = 0; i < pts.length; ++i) {
+      this.canvas.fillStyle = pts[i].fillStyle;
+      this.canvas.fillRect(pts[i].x, pts[i].y, 1, 1);
+    }
+  
+  },
+
   paintPoints: function(points) {
 
     for (var i = 0; i < points.length; ++i) {
-      this.canvas.fillStyle = points[i].fillStyle;
-      this.canvas.fillRect(points[i].x, points[i].y, 1, 1);
+      this.paintPoint({
+        x: points[i].x, 
+        y: points[i].y
+      });
     }
 
   },
@@ -79,8 +91,7 @@ Painter.prototype = {
       x = Math.floor(x);
       y = Math.floor(y);
 
-      var points = _that.interaction.actWithPoint(x, y);
-      _that.paintPoints(points);
+      _that.paintPoint({x:x, y:y});
 
     });
 
@@ -97,8 +108,7 @@ Painter.prototype = {
         x = Math.floor(x);
         y = Math.floor(y);
 
-        var points = _that.interaction.actWithPoint(x, y);
-        _that.paintPoints(points);
+        _that.paintPoint({x:x, y:y});
       }
 
     });

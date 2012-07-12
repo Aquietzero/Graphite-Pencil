@@ -1,5 +1,13 @@
 /*
  * Interpolation
+ *
+ * Several interpolation methods are defined in the Interpolation
+ * namespace. Nearly all of the interpolation methods take the
+ * coordinate of the start and end point and the step of course,
+ * then the interpolation methods returns an array of points as the
+ * result of the interpolation. One thing that needs to pay attention
+ * is that the coordinates of the points are all integers, which is
+ * better for canvas rendering.
  */
 
 var Interpolation = {
@@ -15,8 +23,8 @@ var Interpolation = {
     var points = [];
     for (var i = 0; i < step; ++i) {
       points.push({
-        x : start.x + i * step_x,
-        y : start.y + i * step_y,
+        x : Math.floor(start.x + i * step_x),
+        y : Math.floor(start.y + i * step_y),
       });
     }
 
