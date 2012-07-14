@@ -3,7 +3,7 @@ $(function() {
 
   var painter = new Painter('pencil-canvas');
   painter.init();
-
+/*
   painter.paintPoints(Interpolation.line(
     {x: 200, y: 200},
     {x: 400, y: 400},
@@ -21,5 +21,5 @@ $(function() {
     {x: 500, y: 400},
     25
   ));
-
+*/
 })
