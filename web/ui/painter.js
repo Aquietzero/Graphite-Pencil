@@ -129,6 +129,7 @@ Painter.prototype = {
       _that.pencil = new Pencil(0.5, 0.1, 0.9, 0.5, 0.05, _that.shapeGetter.vertices);
       _that.pencil.getPoints();
       _that.interaction.setPencil(_that.pencil);
+      $("#sidebar").hide();
     }
 
     resetButton.click(resetShapeGetterHandler);
@@ -143,6 +144,7 @@ Painter.prototype = {
 
     var commitShapeGetterHandler = function() {
       _that.interaction.setColor(_that.colorPicker.color);
+      $("#sidebar").hide();
     }
 
     commitButton.click(commitShapeGetterHandler);
