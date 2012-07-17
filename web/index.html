@@ -12,6 +12,7 @@
     <script type="text/javascript" src="src/paper.js"></script>
     <script type="text/javascript" src="src/pencil.js"></script>
     <script type="text/javascript" src="src/interaction.js"></script>
+    <script type="text/javascript" src="src/eraser_interaction.js"></script>
 
     <script type="text/javascript" src="ui/shape_getter.js"></script>
     <script type="text/javascript" src="ui/color_picker.js"></script>
@@ -48,9 +49,11 @@
     </div>
 
     <div id="function-choice">
-      <button onclick="$('#pencil-color').hide() | $('#sidebar').show() | $('#pencil-shape').show()">Shape Getter</button>
-      <button onclick="$('#pencil-shape').hide() | $('#sidebar').show() | $('#pencil-color').show()">Color Picker</button>
-      <button >Fill the canvas</button>
+      <button id="shape-getter">Shape Getter</button>
+      <button id="color-picker">Color Picker</button>
+      <button id="fill-canvas">Fill the canvas</button>
+      <button id="eraser">Eraser</button>
+      <button id="reset-pencil">Reset pencil</button>
     </div>
 
   </body>

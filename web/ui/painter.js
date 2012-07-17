@@ -9,6 +9,7 @@ function Painter(dom_id) {
   this.width  = dom.width;
   this.height = dom.height;
 
+  this.canvas_color = 'rgba(255, 255, 255, 1)';
 }
 
 Painter.prototype = {
@@ -32,10 +33,16 @@ Painter.prototype = {
     this.pencil.getPoints();
 
     this.interaction = new Interaction(this.paper, this.pencil);
+    this.interactionHolder = this.interaction;
 
     this._initColorPicker();
     this._initShapeGetter();
     this._bindDrawEvent();
+    this._bindFillCanvasEvent();
+    this._bindEraserEvent();
+    this._bindResetPencilEvent();
+    this._bindOpenColorPickerEvent();
+    this._bindOpenShapeGetterEvent();
     this._bindColorPickerEvent();
     this._bindShapeGetterEvent();
 
@@ -61,6 +68,7 @@ Painter.prototype = {
     }
 
   },
+
 
   _initShapeGetter: function() {
 
@@ -151,4 +159,68 @@ Painter.prototype = {
  
   },
 
+  _bindFillCanvasEvent: function() {
+    var _that = this;
+    var fillCanvasButton = $('#fill-canvas');
+
+    var fillCanvasEventHandler = function() {
+      _that.canvas_color = _that.interaction.getColor();
+      _that.canvas.fillStyle = _that.canvas_color; 
+      _that.canvas.fillRect(0,0,1500,500);
+    }
+
+    fillCanvasButton.click(fillCanvasEventHandler);
+  },
+
+  _bindEraserEvent: function() {
+    var _that = this;
+    var eraserButton = $('#eraser');
+   
+    var eraserEventHandler = function() {
+      _that.interaction = new EraserInteraction(_that.paper, _that.pencil, _that.canvas_color);
+      $("#color-picker").hide();
+      $("#shape-getter").hide();
+      $("#fill-canvas").hide();
+    }
+
+    eraserButton.click(eraserEventHandler);
+  },
+
+  _bindOpenColorPickerEvent: function() {
+    var colorPickerButton = $('#color-picker');
+
+    var openColorPickerEventHandler = function() {
+      $("#pencil-shape").hide();
+      $("#sidebar").show();
+      $("#pencil-color").show();
+    }
+
+    colorPickerButton.click(openColorPickerEventHandler);
+  },
+
+  _bindOpenShapeGetterEvent: function() {
+    var shapeGetterButton = $('#shape-getter');
+
+    var openShapeGetterEventHandler = function() {
+      $("#pencil-color").hide();
+      $("#sidebar").show();
+      $("#pencil-shape").show();
+    }
+
+    shapeGetterButton.click(openShapeGetterEventHandler);
+  },
+
+  _bindResetPencilEvent: function() {
+    var _that = this;
+    var resetPencilButton = $('#reset-pencil');
+
+    var resetPencilEventHandler = function() {
+      _that.interaction = _that.interactionHolder;
+      $("#color-picker").show();
+      $("#shape-getter").show();
+      $("#fill-canvas").show();
+    }
+
+    resetPencilButton.click(resetPencilEventHandler);
+  },
 }

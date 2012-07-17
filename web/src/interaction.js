@@ -22,6 +22,10 @@ Interaction.prototype = {
     this.color = 'rgba(' + color.R + ',' + color.G + ',' + color.B + ',';
   },
 
+  getColor: function() {
+    return this.color + '1)';
+  },
+
   calD_l: function() {
   
     var h_max = this.paper.getH_max(this.x, this.y);
