@@ -76,3 +76,7 @@ body {
   margin: 0;
   background-color: white;
 }
+
+#reset-pencil {
+  display: none;
+}

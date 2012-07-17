@@ -181,6 +181,7 @@ Painter.prototype = {
       $("#color-picker").hide();
       $("#shape-getter").hide();
       $("#fill-canvas").hide();
+      $("#reset-pencil").show();
     }
 
     eraserButton.click(eraserEventHandler);
@@ -219,6 +220,7 @@ Painter.prototype = {
       $("#color-picker").show();
       $("#shape-getter").show();
       $("#fill-canvas").show();
+      resetPencilButton.hide();
     }
 
     resetPencilButton.click(resetPencilEventHandler);
